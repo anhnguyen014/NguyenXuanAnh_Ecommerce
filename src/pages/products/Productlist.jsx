@@ -1,10 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../features/product/productSlice";
+import {
+  getOneProduct,
+  getProducts,
+} from "../../features/product/productSlice";
 import Link from "antd/es/typography/Link";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { base_url } from "../../utils/base-_url";
+
 const columns = [
   {
     title: "SNo",
@@ -46,20 +53,27 @@ const columns = [
   },
 ];
 
-const Productlist = () => {
+const Productlist = (props) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getProducts());
-  }, []);
+  }, [dispatch, props.productId]);
+
   const productState = useSelector((state) => state.product.products);
+
   const data1 = [];
   for (let i = 0; i < productState.length; i++) {
     data1.push({
       key: i + 1,
       title: productState[i].title,
-      image: productState[i].images.map((i, j) => {
-        return <img key={j} src={i.url} alt="" className="w-25 h-25" />;
-      }),
+      image:
+        productState[i].images &&
+        productState[i].images.map((i, j) => (
+          <div key={j}>
+            <img src={i.url} alt="" className="w-25 h-25" />
+          </div>
+        )),
       brand: productState[i].brand,
       category: productState[i].category,
       color: productState[i]._id,

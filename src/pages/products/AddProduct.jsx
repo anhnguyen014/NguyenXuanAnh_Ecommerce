@@ -38,6 +38,7 @@ const AddProduct = () => {
   const pCateState = useSelector((state) => state.pcategory.pcategories);
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
+
   const newProduct = useSelector((state) => state.product);
   const { isSuccess, isError, isLoading, createdProduct } = newProduct;
 
@@ -48,7 +49,7 @@ const AddProduct = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading]);
+  }, [isSuccess, isError, isLoading, createdProduct]);
 
   const coloropt = [];
   colorState.forEach((i) => {
@@ -95,6 +96,7 @@ const AddProduct = () => {
       tags: Yup.string().required("Tags is Required"),
     }),
     onSubmit: (values) => {
+      toast.success("Product Add Successfully!");
       dispatch(createProduct(values));
       formik.resetForm();
       setColor(null);

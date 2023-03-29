@@ -8,6 +8,11 @@ const getProducts = async () => {
   return res.data;
 };
 
+const getOneProduct = async (id) => {
+  const res = await axios.get(`${base_url}product/${id}`);
+  return res.data;
+};
+
 const createProduct = async (product) => {
   const res = await axios.post(`${base_url}product/`, product, config);
   return res.data;
@@ -15,6 +20,7 @@ const createProduct = async (product) => {
 
 const productService = {
   getProducts,
+  getOneProduct,
   createProduct,
 };
 

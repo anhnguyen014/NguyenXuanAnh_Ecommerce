@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/auth/authSlice";
 
+import { toast } from "react-toastify";
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ const Login = () => {
   const { user, isLoading, isError, isSuccess, message } = authState.auth;
   useEffect(() => {
     if (isSuccess) {
+      toast.success("Login Successfully!");
       navigate("admin");
     } else {
       navigate("");
