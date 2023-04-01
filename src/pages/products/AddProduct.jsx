@@ -96,8 +96,8 @@ const AddProduct = () => {
       tags: Yup.string().required("Tags is Required"),
     }),
     onSubmit: (values) => {
-      toast.success("Product Add Successfully!");
       dispatch(createProduct(values));
+      toast.success("Product Add Successfully!");
       formik.resetForm();
       setColor(null);
       setTimeout(() => {

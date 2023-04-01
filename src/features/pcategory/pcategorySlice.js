@@ -11,6 +11,16 @@ export const getPCategories = createAsyncThunk(
     }
   }
 );
+export const createCategory = createAsyncThunk(
+  "brand/create-brand",
+  async (cateData, thunkAPI) => {
+    try {
+      return await pcategoryService.createCategory(cateData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 const initialState = {
   pcategories: [],
   isError: false,
@@ -34,6 +44,20 @@ export const pcategorySlice = createSlice({
         state.pcategories = action.payload;
       })
       .addCase(getPCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(createCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.createdCategory = action.payload;
+      })
+      .addCase(createCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
