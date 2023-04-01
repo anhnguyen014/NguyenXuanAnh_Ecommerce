@@ -12,7 +12,7 @@ export const getPCategories = createAsyncThunk(
   }
 );
 export const createCategory = createAsyncThunk(
-  "brand/create-brand",
+  "category/create-category",
   async (cateData, thunkAPI) => {
     try {
       return await pcategoryService.createCategory(cateData);
