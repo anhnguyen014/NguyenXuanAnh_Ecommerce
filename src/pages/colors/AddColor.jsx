@@ -21,7 +21,7 @@ const AddColor = () => {
     if (isError) {
       toast.error("Something went wrong!");
     }
-  }, [isSuccess, isLoading, isError, createdColor]);
+  }, [isSuccess, isLoading, isError]);
   const formik = useFormik({
     initialValues: {
       title: "",
