@@ -3,7 +3,10 @@ import CustomInput from "../../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createBCategory } from "../../features/bcategory/bcategorySlice";
+import {
+  createBCategory,
+  resetState,
+} from "../../features/bcategory/bcategorySlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -33,7 +36,7 @@ const AddBlogCat = () => {
       formik.resetForm();
 
       setTimeout(() => {
-        navigate("/admin/blog-category-list");
+        dispatch(resetState());
       }, 3000);
       // alert(JSON.stringify(values));
     },

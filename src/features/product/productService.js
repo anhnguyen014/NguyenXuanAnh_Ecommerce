@@ -1,6 +1,6 @@
 import axios from "axios";
 import { base_url } from "../../utils/base-_url";
-import { config } from "../auth/authService";
+import { config } from "../../utils/axiosconfig";
 
 const getProducts = async () => {
   const res = await axios.get(`${base_url}product/`);

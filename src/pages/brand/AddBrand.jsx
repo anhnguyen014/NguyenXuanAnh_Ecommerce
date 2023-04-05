@@ -3,7 +3,7 @@ import CustomInput from "../../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createBrand } from "../../features/brand/brandSlice";
+import { createBrand, resetState } from "../../features/brand/brandSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +34,8 @@ const AddBrand = () => {
       formik.resetForm();
 
       setTimeout(() => {
-        navigate("/admin/brand-list");
+        dispatch(resetState());
+        // navigate("/admin/brand-list");
       }, 3000);
       // alert(JSON.stringify(values));
     },

@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createColor } from "../../features/color/colorSlice";
+import { createColor, resetState } from "../../features/color/colorSlice";
 
 const AddColor = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,8 @@ const AddColor = () => {
       formik.resetForm();
 
       setTimeout(() => {
-        navigate("/admin/color-list");
+        dispatch(resetState());
+        // navigate("/admin/color-list");
       }, 3000);
       // alert(JSON.stringify(values));
     },

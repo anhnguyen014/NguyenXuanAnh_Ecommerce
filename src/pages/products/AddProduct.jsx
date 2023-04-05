@@ -15,7 +15,7 @@ import { Select } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { deleteImg, uploadImg } from "../../features/upload/uploadSlice";
-import { createProduct } from "../../features/product/productSlice";
+import { createProduct, resetState } from "../../features/product/productSlice";
 import { toast } from "react-toastify";
 // import { InboxOutlined } from "@ant-design/icons";
 // import { message, Upload } from "antd";
@@ -97,11 +97,11 @@ const AddProduct = () => {
     }),
     onSubmit: (values) => {
       dispatch(createProduct(values));
-      toast.success("Product Add Successfully!");
+      // toast.success("Product Add Successfully!");
       formik.resetForm();
       setColor(null);
       setTimeout(() => {
-        navigate("/admin/product-list");
+        dispatch(resetState());
       }, 3000);
       // alert(JSON.stringify(values));
     },
@@ -188,6 +188,9 @@ const AddProduct = () => {
               );
             })}
           </select>
+          <div className="error ">
+            {formik.touched.category && formik.errors.category}
+          </div>
           <select
             name="tags"
             onChange={formik.handleChange("tags")}

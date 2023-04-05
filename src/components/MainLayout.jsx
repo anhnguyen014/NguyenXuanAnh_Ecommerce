@@ -6,6 +6,7 @@ import {
   AiOutlineBgColors,
   AiOutlineContacts,
 } from "react-icons/ai";
+import { RiCoupon2Line, RiCouponLine } from "react-icons/ri";
 import { SiBrandfolder } from "react-icons/si";
 import { BiCategoryAlt } from "react-icons/bi";
 import { IoMdNotifications } from "react-icons/io";
@@ -145,6 +146,23 @@ const MainLayout = () => {
                   key: "blog-category-list",
                   icon: <FaBloggerB className="fs-4" />,
                   label: "Blog Category List",
+                },
+              ],
+            },
+            {
+              key: "marketing",
+              icon: <RiCoupon2Line className="fs-4" />,
+              label: "Marketing",
+              children: [
+                {
+                  key: "add-coupon",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Add Coupon",
+                },
+                {
+                  key: "coupon-list",
+                  icon: <RiCouponLine className="fs-4" />,
+                  label: "Coupon List",
                 },
               ],
             },

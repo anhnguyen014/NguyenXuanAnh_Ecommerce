@@ -6,7 +6,10 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createCategory } from "../../features/pcategory/pcategorySlice";
+import {
+  createCategory,
+  resetState,
+} from "../../features/pcategory/pcategorySlice";
 
 const AddCategory = () => {
   const dispatch = useDispatch();
@@ -35,7 +38,7 @@ const AddCategory = () => {
       formik.resetForm();
 
       setTimeout(() => {
-        navigate("/admin/category-list");
+        dispatch(resetState());
       }, 3000);
       // alert(JSON.stringify(values));
     },
