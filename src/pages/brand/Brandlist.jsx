@@ -1,10 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getBrands } from "../../features/brand/brandSlice";
-import Link from "antd/es/typography/Link";
+import {
+  deleteABrand,
+  getBrands,
+  resetState,
+} from "../../features/brand/brandSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
+import CustomModal from "../../components/CustomModal";
 const columns = [
   {
     title: "SNo",
@@ -23,8 +28,21 @@ const columns = [
 ];
 
 const Brandlist = () => {
+  const [open, setOpen] = useState(false);
+  const [brandId, setBrandId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setBrandId(e);
+  };
+  // console.log(brandId);
+  const hideModal = () => {
+    setOpen(false);
+  };
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getBrands());
   }, []);
   const brandState = useSelector((state) => state.brand.brands);
@@ -36,22 +54,44 @@ const Brandlist = () => {
 
       action: (
         <>
-          <Link className=" fs-4 text-success" to="/">
+          <Link
+            to={`/admin/brand/${brandState[i]._id}`}
+            className=" fs-4 text-success"
+          >
             <FiEdit />
           </Link>
-          <Link className="ms-3 fs-4 text-danger" to="">
+          <button
+            className="ms-3 fs-4 text-danger bg-transparent border-0"
+            onClick={() => showModal(brandState[i]._id)}
+          >
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+  const deleteBrand = (e) => {
+    dispatch(deleteABrand(e));
+    setTimeout(() => {
+      dispatch(getBrands());
+    }, 50);
+    setOpen(false);
+  };
+
   return (
     <div>
       <h3 className="mb-4 title">Brand List</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteBrand(brandId);
+        }}
+        title="Are you sure you want to delete this brand?"
+      />
     </div>
   );
 };

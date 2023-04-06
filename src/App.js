@@ -44,6 +44,7 @@ function App() {
           <Route path="add-category" element={<AddCategory />} />
           <Route path="brand-list" element={<Brandlist />} />
           <Route path="add-brand" element={<AddBrand />} />
+          <Route path="brand/:id" element={<AddBrand />} />
           <Route path="product-list" element={<Productlist />} />
           <Route path="add-product" element={<AddProduct />} />
           <Route path="add-coupon" element={<AddCoupon />} />
