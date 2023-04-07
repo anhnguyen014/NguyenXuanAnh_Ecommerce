@@ -55,10 +55,7 @@ const getBlog = asyHandler(async (req, res) => {
       },
       { new: true }
     );
-    res.json({
-      status: "success",
-      getBlog,
-    });
+    res.json(getBlog);
   } catch (error) {
     throw new Error(error);
   }
@@ -84,7 +81,6 @@ const deleteBlog = asyHandler(async (req, res) => {
     const deleteBlog = await Blog.findByIdAndDelete(id);
     res.json({
       success: "Blog is deleted",
-      deleteBlog,
     });
   } catch (error) {
     throw new Error(error);
