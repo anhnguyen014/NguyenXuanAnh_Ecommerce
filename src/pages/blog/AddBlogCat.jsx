@@ -5,45 +5,78 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   createBCategory,
+  getABlogCategory,
   resetState,
+  updateABlogCategory,
 } from "../../features/bcategory/bcategorySlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddBlogCat = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
+  const getBlogCateId = location.pathname.split("/")[3];
   const newBCategory = useSelector((state) => state.bcategory);
-  const { isSuccess, isError, isLoading, createdBCate } = newBCategory;
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdBCate,
+    updatedBCate,
+    blogCateName,
+  } = newBCategory;
+
+  useEffect(() => {
+    if (getBlogCateId !== undefined) {
+      dispatch(getABlogCategory(getBlogCateId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [getBlogCateId]);
   useEffect(() => {
     if (isSuccess && createdBCate) {
-      toast.success("Brand Add Successfully!");
+      toast.success("Blog Category Added Successfully!");
+      dispatch(resetState());
+    }
+    if (isSuccess && updatedBCate) {
+      toast.success("Blog Category Name updated Successfully!");
+      navigate("/admin/blog-category-list");
     }
     if (isError) {
-      toast.error("Brand went Wrong!");
+      toast.error("Blog Category went Wrong!");
     }
   }, [isSuccess, isError, isLoading]);
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: blogCateName || "",
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Blog Category is Required"),
     }),
     onSubmit: (values) => {
-      dispatch(createBCategory(values));
-      // toast.success("Brand Add Successfully!");
-      formik.resetForm();
+      if (getBlogCateId !== undefined) {
+        const data = { id: getBlogCateId, blogCateData: values };
+        dispatch(updateABlogCategory(data));
+      } else {
+        dispatch(createBCategory(values));
+        // toast.success("Brand Add Successfully!");
+        formik.resetForm();
 
-      setTimeout(() => {
-        dispatch(resetState());
-      }, 3000);
+        setTimeout(() => {
+          dispatch(resetState());
+        }, 300);
+      }
+
       // alert(JSON.stringify(values));
     },
   });
   return (
     <div>
-      <h3 className="mb-4 title">Add Blog Category</h3>
+      <h3 className="mb-4 title">
+        {getBlogCateId !== undefined ? "Edit" : "Add"} Blog Category
+      </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
@@ -62,7 +95,7 @@ const AddBlogCat = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            Add Blog Cate
+            {getBlogCateId !== undefined ? "Edit" : "Add"} Blog Cate
           </button>
         </form>
       </div>

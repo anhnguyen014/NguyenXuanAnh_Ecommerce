@@ -55,7 +55,7 @@ const AddBrand = () => {
       title: brandName || "",
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("Brand is Required"),
+      title: Yup.string().required("Brand Name is Required"),
     }),
     onSubmit: (values) => {
       if (getBrandId !== undefined) {

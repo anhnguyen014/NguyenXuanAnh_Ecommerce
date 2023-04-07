@@ -21,6 +21,39 @@ export const createCategory = createAsyncThunk(
     }
   }
 );
+export const updateAPCategory = createAsyncThunk(
+  "pCategory/update-pCategory",
+  async (pCate, thunkAPI) => {
+    try {
+      return await pcategoryService.updatePCategory(pCate);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getAPCategory = createAsyncThunk(
+  "pcategory/get-pcategory",
+  async (id, thunkAPI) => {
+    try {
+      return await pcategoryService.getPCategory(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteAPCategory = createAsyncThunk(
+  "pcategory/delete-pcategory",
+  async (id, thunkAPI) => {
+    try {
+      await pcategoryService.deleteAPCategory(id);
+      return thunkAPI.dispatch(getPCategories());
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 export const resetState = createAction("Reset-all");
 
 const initialState = {
@@ -65,8 +98,50 @@ export const pcategorySlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
+
+      .addCase(getAPCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAPCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.pCategoryName = action.payload.title;
+      })
+      .addCase(getAPCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateAPCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateAPCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.updatedPCategory = action.payload;
+      })
+      .addCase(updateAPCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(deleteAPCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteAPCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.deletedPCategory = action.payload;
+      })
+      .addCase(deleteAPCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
       .addCase(resetState, () => initialState);
   },
 });
-
 export default pcategorySlice.reducer;

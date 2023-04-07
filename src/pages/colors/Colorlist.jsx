@@ -1,10 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getColors } from "../../features/color/colorSlice";
-import Link from "antd/es/typography/Link";
+import {
+  deleteAColor,
+  getColors,
+  resetState,
+} from "../../features/color/colorSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
+import CustomModal from "../../components/CustomModal";
 const columns = [
   {
     title: "SNo",
@@ -23,8 +28,19 @@ const columns = [
 ];
 
 const Colorlist = () => {
+  const [open, setOpen] = useState(false);
+  const [colorId, setColorId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setColorId(e);
+  };
+  // console.log(brandId);
+  const hideModal = () => {
+    setOpen(false);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getColors());
   }, []);
   const colorState = useSelector((state) => state.color.colors);
@@ -35,22 +51,43 @@ const Colorlist = () => {
       name: colorState[i].title,
       action: (
         <>
-          <Link className=" fs-4 text-success" to="/">
+          <Link
+            to={`/admin/color/${colorState[i]._id}`}
+            className=" fs-4 text-success"
+          >
             <FiEdit />
           </Link>
-          <Link className="ms-3 fs-4 text-danger" to="">
+          <button
+            className="ms-3 fs-4 text-danger bg-transparent border-0"
+            onClick={() => showModal(colorState[i]._id)}
+          >
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+  const deleteColor = (e) => {
+    dispatch(deleteAColor(e));
+    setTimeout(() => {
+      dispatch(getColors());
+    }, 50);
+    setOpen(false);
+  };
   return (
     <div>
       <h3 className="mb-4 title">Colors</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteColor(colorId);
+        }}
+        title="Are you sure you want to delete this color?"
+      />
     </div>
   );
 };
