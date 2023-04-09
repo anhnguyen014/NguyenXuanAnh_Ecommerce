@@ -36,10 +36,10 @@ const columns = [
     dataIndex: "category",
     sorter: (a, b) => a.category.length - b.category.length,
   },
-  {
-    title: "Color",
-    dataIndex: "color",
-  },
+  // {
+  //   title: "Color",
+  //   dataIndex: "color",
+  // },
 
   {
     title: "Price",
@@ -67,16 +67,18 @@ const Productlist = (props) => {
     data1.push({
       key: i + 1,
       title: productState[i].title,
-      image:
-        productState[i].images &&
-        productState[i].images.map((i, j) => (
-          <div key={j}>
-            <img src={i.url} alt="" className="w-25 h-25" />
-          </div>
-        )),
+      image: (
+        <>
+          <img
+            src={productState[i].images[0] && productState[i].images[0].url}
+            className="img-fluid img-product"
+            alt=""
+          />
+        </>
+      ),
       brand: productState[i].brand,
       category: productState[i].category,
-      color: productState[i]._id,
+      // color: productState[i]._id,
 
       price: `${productState[i].price}`,
       action: (

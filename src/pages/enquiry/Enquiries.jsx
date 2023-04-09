@@ -1,10 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getEnquiries } from "../../features/enquiry/enquirySlice";
-import Link from "antd/es/typography/Link";
-import { FiEdit } from "react-icons/fi";
-import { AiFillDelete } from "react-icons/ai";
+import {
+  deleteAEnquiry,
+  getEnquiries,
+  resetState,
+} from "../../features/enquiry/enquirySlice";
+
+import { AiFillDelete, AiOutlineEye } from "react-icons/ai";
+import CustomModal from "../../components/CustomModal";
+import { Link } from "react-router-dom";
+
 const columns = [
   {
     title: "SNo",
@@ -41,8 +47,19 @@ const columns = [
 ];
 
 const Enquiries = () => {
+  const [open, setOpen] = useState(false);
+  const [enqId, setEnqId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setEnqId(e);
+  };
+  // console.log(enqId);
+  const hideModal = () => {
+    setOpen(false);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getEnquiries());
   }, []);
   const enquiryState = useSelector((state) => state.enquiry.enquiries);
@@ -61,22 +78,47 @@ const Enquiries = () => {
           </select>
         </>
       ),
-      date: enquiryState[i].createdAt,
+      date: new Date(enquiryState[i].createdAt).toLocaleString(),
+
       action: (
         <>
-          <Link className="ms-3 fs-4 text-danger" to="">
-            <AiFillDelete />
+          <Link
+            className="ms-3 fs-4 text-info"
+            to={`/admin/enquiry/${enquiryState[i]._id}`}
+          >
+            <AiOutlineEye />
           </Link>
+          <button
+            className="ms-3 fs-4 text-danger bg-transparent border-0"
+            onClick={() => showModal(enquiryState[i]._id)}
+          >
+            <AiFillDelete />
+          </button>
         </>
       ),
     });
   }
+  const deleteEnquiry = (e) => {
+    dispatch(deleteAEnquiry(e));
+    setTimeout(() => {
+      dispatch(getEnquiries());
+    }, 50);
+    setOpen(false);
+  };
   return (
     <div>
       <h3 className="mb-4 title">Enquiries</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteEnquiry(enqId);
+        }}
+        title="Are you sure you want to delete this enquiry?"
+      />
     </div>
   );
 };

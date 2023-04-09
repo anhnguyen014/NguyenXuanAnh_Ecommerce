@@ -73,6 +73,14 @@ main{
 main::-webkit-scrollbar{
   width: 0px;
 }
+.ant-table-cell{
+  width: 400px;
+  height: 121px;
+}
+.img-product{
+  width: 80px;
+  height: 80px;
+}
 
 .error{
   color: red;
