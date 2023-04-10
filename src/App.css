@@ -84,6 +84,10 @@ a{
 .fs-14{
   font-size: 14px;
 }
+.error{
+  color: red;
+  font-size: 12px;
+}
 /* Header Part */
 
 .header-top-strip{
