@@ -93,6 +93,7 @@ const AddBlog = () => {
       if (getBlogId !== undefined) {
         const data = { id: getBlogId, blogData: values };
         dispatch(updateABlog(data));
+        console.log(data);
         dispatch(resetState());
       } else {
         dispatch(createBlogs(values));

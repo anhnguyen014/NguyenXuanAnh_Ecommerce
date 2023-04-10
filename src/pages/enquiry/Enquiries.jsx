@@ -5,6 +5,7 @@ import {
   deleteAEnquiry,
   getEnquiries,
   resetState,
+  updateAEnquiry,
 } from "../../features/enquiry/enquirySlice";
 
 import { AiFillDelete, AiOutlineEye } from "react-icons/ai";
@@ -63,6 +64,7 @@ const Enquiries = () => {
     dispatch(getEnquiries());
   }, []);
   const enquiryState = useSelector((state) => state.enquiry.enquiries);
+
   const data1 = [];
   for (let i = 0; i < enquiryState.length; i++) {
     data1.push({
@@ -73,8 +75,21 @@ const Enquiries = () => {
       comment: enquiryState[i].comment,
       status: (
         <>
-          <select name="" id="" className="form-control form-select">
-            <option value="">Set Status</option>
+          <select
+            name=""
+            id=""
+            defaultValue={
+              enquiryState[i].status ? enquiryState[i].status : "Submitted"
+            }
+            className="form-control form-select"
+            onChange={(e) =>
+              setEnquiryStatus(e.target.value, enquiryState[i]._id)
+            }
+          >
+            <option value="Submitted">Submitted</option>
+            <option value="Contacted">Contacted</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
           </select>
         </>
       ),
@@ -98,6 +113,12 @@ const Enquiries = () => {
       ),
     });
   }
+  const setEnquiryStatus = (e, i) => {
+    // console.log(e, i);
+    const data = { id: i, enqData: e };
+    dispatch(updateAEnquiry(data));
+  };
+
   const deleteEnquiry = (e) => {
     dispatch(deleteAEnquiry(e));
     setTimeout(() => {

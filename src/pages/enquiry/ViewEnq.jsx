@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAEnquiry } from "../../features/enquiry/enquirySlice";
+import {
+  getAEnquiry,
+  resetState,
+  updateAEnquiry,
+} from "../../features/enquiry/enquirySlice";
+import { BiArrowBack } from "react-icons/bi";
 
 const ViewEnq = () => {
   const location = useLocation();
@@ -20,11 +25,25 @@ const ViewEnq = () => {
   const goBack = () => {
     navigate(-1);
   };
+  const setEnquiryStatus = (e, i) => {
+    // console.log(e, i);
+    const data = { id: i, enqData: e };
+    dispatch(updateAEnquiry(data));
+    dispatch(resetState());
+    setTimeout(() => {
+      dispatch(getAEnquiry(getEnqId));
+    }, 100);
+  };
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center">
         <h3 className="mb-4 title">View Enquiry</h3>
-        <button onClick={goBack}>Go Back</button>
+        <button
+          className="bg-transparent border-0 fs-5 mb-0 d-flex align-items-center gap-3"
+          onClick={goBack}
+        >
+          <BiArrowBack className="fs-5" /> Go Back
+        </button>
       </div>
       <div className="mt-5 bg-white d-flex gap-3 flex-column p-4 rounded-3">
         <div className="d-flex align-items-center gap-3">
@@ -33,14 +52,24 @@ const ViewEnq = () => {
         </div>
         <div className="d-flex align-items-center gap-3">
           <h6 className="mb-0">Email:</h6>
-          <p className="mb-0">
-            <a href={`mailto:${enqEmail}`}>{enqEmail}</a>
+          <p className="mb-0 ">
+            <a
+              className="text-dark text-decoration-none"
+              href={`mailto:${enqEmail}`}
+            >
+              {enqEmail}
+            </a>
           </p>
         </div>
         <div className="d-flex align-items-center gap-3 ">
           <h6 className="mb-0">Mobile:</h6>
           <p className="mb-0">
-            <a href={`tel:+84${enqMobile}`}>{enqMobile}</a>
+            <a
+              className="text-dark text-decoration-none"
+              href={`tel:+84${enqMobile}`}
+            >
+              {enqMobile}
+            </a>
           </p>
         </div>
         <div className="d-flex align-items-center gap-3 ">
@@ -59,6 +88,7 @@ const ViewEnq = () => {
               id=""
               defaultValue={enqStatus ? enqStatus : "Submitted"}
               className="form-control form-select"
+              onChange={(e) => setEnquiryStatus(e.target.value, getEnqId)}
             >
               <option value="Submitted">Submitted</option>
               <option value="Contacted">Contacted</option>

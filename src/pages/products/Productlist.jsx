@@ -4,13 +4,12 @@ import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getOneProduct,
+  deleteAProduct,
   getProducts,
+  resetState,
 } from "../../features/product/productSlice";
-import Link from "antd/es/typography/Link";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { base_url } from "../../utils/base-_url";
+import { Link } from "react-router-dom";
+import CustomModal from "../../components/CustomModal";
 
 const columns = [
   {
@@ -53,12 +52,23 @@ const columns = [
   },
 ];
 
-const Productlist = (props) => {
+const Productlist = () => {
+  const [open, setOpen] = useState(false);
+  const [productId, setProductId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setProductId(e);
+  };
+  // console.log(productId);
+  const hideModal = () => {
+    setOpen(false);
+  };
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getProducts());
-  }, [dispatch, props.productId]);
+  }, []);
 
   const productState = useSelector((state) => state.product.products);
 
@@ -83,22 +93,43 @@ const Productlist = (props) => {
       price: `${productState[i].price}`,
       action: (
         <>
-          <Link className=" fs-4 text-success" to="/">
+          <Link
+            className=" fs-4 text-success"
+            to={`/admin/product/${productState[i]._id}`}
+          >
             <FiEdit />
           </Link>
-          <Link className="ms-3 fs-4 text-danger" to="">
+          <button
+            className="ms-3 fs-4 text-danger bg-transparent border-0"
+            onClick={() => showModal(productState[i]._id)}
+          >
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+  const deleteProduct = (e) => {
+    dispatch(deleteAProduct(e));
+    setTimeout(() => {
+      dispatch(getProducts());
+    }, 50);
+    setOpen(false);
+  };
   return (
     <div>
       <h3 className="mb-4 title">Product List</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => {
+          deleteProduct(productId);
+        }}
+        title="Are you sure you want to delete this product?"
+      />
     </div>
   );
 };
