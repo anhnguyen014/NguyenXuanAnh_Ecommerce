@@ -1,8 +1,10 @@
 import axios from "axios";
 import { base_url } from "../../utils/base-_url";
+
 const getTokenFromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : null;
+
 export const config = {
   headers: { Authorization: `Bearer ${getTokenFromLocalStorage.token}` },
 };
