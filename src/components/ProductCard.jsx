@@ -7,10 +7,19 @@ import watch2 from "../images/smartwatch1.avif";
 import prodCompare from "../images/prodcompare.svg";
 import addcart from "../images/add-cart.svg";
 import view from "../images/view.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWishList } from "../features/products/productSlice";
+
 const ProductCard = (props) => {
   const { grid, data } = props;
   let location = useLocation();
-  console.log(data);
+  const dispatch = useDispatch();
+
+  // console.log(data);
+  const addToWhish = (id) => {
+    // alert(id);
+    dispatch(addToWishList(id));
+  };
   return (
     <>
       {data?.map((item, index) => {
@@ -21,9 +30,14 @@ const ProductCard = (props) => {
               location.pathname === "/product" ? `gr-${grid}` : "col-3"
             }`}
           >
-            <Link to="/product/:id" className="product-card position-relative">
+            <Link className="product-card position-relative">
               <div className="wishlist-icon position-absolute">
-                <button className="border-0 bg-transparent">
+                <button
+                  className="border-0 bg-transparent"
+                  onClick={(e) => {
+                    addToWhish(item?._id);
+                  }}
+                >
                   <img src={wish} alt="wishlist" />
                 </button>
               </div>

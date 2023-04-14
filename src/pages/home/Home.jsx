@@ -7,9 +7,21 @@ import SpecialProduct from "../../components/SpecialProduct";
 import Meta from "../../components/Meta";
 import Container from "../../components/Container";
 import { serveice } from "../../utils/Data";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProduct } from "../../features/products/productSlice";
+
 // import BreadCrumb from "../components/BreadCrumb";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getProducts();
+  }, []);
+  const getProducts = () => {
+    dispatch(getAllProduct());
+  };
+  const productState = useSelector((state) => state.product.products);
   return (
     <>
       <Meta title={"E-commerce"} />
@@ -205,10 +217,7 @@ const Home = () => {
           <div className="col-12">
             <h3 className="section-heading">Featured Collection</h3>
           </div>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard data={productState ? productState : []} />
         </div>
       </Container>
       <Container class1="famous-wrapper py-5 home-wrapper-2">
@@ -289,10 +298,7 @@ const Home = () => {
           <div className="col-12">
             <h3 className="section-heading">Our Popular Products</h3>
           </div>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard data={productState ? productState : []} />
         </div>
       </Container>
       <Container class1="marque-wrapper home-wrapper-2 py-5">
