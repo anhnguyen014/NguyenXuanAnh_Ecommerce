@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import Meta from "../../components/Meta";
 import Color from "../../components/Color";
@@ -9,13 +9,54 @@ import ReactImageZoom from "react-image-zoom";
 import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
 import Container from "../../components/Container";
+import { useDispatch, useSelector } from "react-redux";
+import { getAProduct } from "../../features/products/productSlice";
+import { toast } from "react-toastify";
+import { addProductToCart } from "../../features/user/userSlice";
 
 const SingleProduct = () => {
+  const location = useLocation();
+  const getProductId = location.pathname.split("/")[2];
+  // console.log(getProductId);
+
+  const dispatch = useDispatch();
+
+  const [color, setColor] = useState(null);
+  // console.log(color);
+  const [quantity, setQuantity] = useState(1);
+  // console.log(quantity);
+
+  useEffect(() => {
+    dispatch(getAProduct(getProductId));
+  }, [getProductId]);
+
+  const productState = useSelector((state) => state.product.product);
+  // console.log(productState);
+
+  const uploadCart = () => {
+    // alert("Added to cart");
+    if (color === null) {
+      toast.error("Please select a color");
+      return false;
+    } else {
+      dispatch(
+        addProductToCart({
+          productId: productState?._id,
+          quantity,
+          color,
+          price: productState?.price,
+        })
+      );
+    }
+  };
+
   const props = {
     width: 400,
     height: 600,
     zoomWidth: 600,
-    img: "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
+    img: productState?.images[0]?.url
+      ? productState?.images[0]?.url
+      : "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
   };
   const [order, setOrder] = useState(true);
   const copyToClipboard = (text) => {
@@ -40,50 +81,27 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="other-product-images d-flex flex-wrap gap-15">
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
+              {productState?.images.map((item, index) => {
+                return (
+                  <div>
+                    <img src={item?.url} className="img-fluid" alt="" />
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="col-6">
             <div className="main-product-details">
               <div className="border-bottom">
-                <h3 className="title">
-                  Đồng hồ thông minh Apple Watch Series 7 GPS 41mm
-                </h3>
+                <h3 className="title">{productState?.title}</h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price">$ 100</p>
+                <p className="price">{productState?.price} VND</p>
                 <div className="d-flex align-items-center gap-10">
                   <ReactStars
                     count={5}
                     size={24}
-                    value={4}
+                    value={productState?.totalRating}
                     edit={false}
                     activeColor="#ffd700"
                   />
@@ -100,15 +118,15 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Brand: </h3>
-                  <p className="product-data">Apple</p>
+                  <p className="product-data">{productState?.brand}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Category: </h3>
-                  <p className="product-data">Watch</p>
+                  <p className="product-data">{productState?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading ">Tags: </h3>
-                  <p className="product-data ">Watch</p>
+                  <p className="product-data ">{productState?.tags}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading ">Availablity: </h3>
@@ -133,7 +151,7 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 flex-column mt-2 mb-3">
                   <h3 className="product-heading ">Color: </h3>
-                  <Color />
+                  <Color setColor={setColor} colorData={productState?.color} />
                 </div>
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                   <h3 className="product-heading ">Quantity: </h3>
@@ -144,12 +162,22 @@ const SingleProduct = () => {
                       min={1}
                       max={10}
                       className="form-control"
-                      style={{ width: "60px" }}
+                      style={{ width: "70px" }}
                       id=""
+                      onChange={(e) => setQuantity(e.target.value)}
+                      value={quantity}
                     />
                   </div>
                   <div className="d-flex align-items-center gap-30 ms-5">
-                    <button className="button">Them vao gio hang</button>
+                    <button
+                      className="button border-0"
+                      type="button"
+                      onClick={() => {
+                        uploadCart();
+                      }}
+                    >
+                      Them vao gio hang
+                    </button>
                     <button className="button signup">Mua ngay</button>
                   </div>
                 </div>
@@ -182,9 +210,7 @@ const SingleProduct = () => {
                   <a
                     href="javascript:void(0);"
                     onClick={() => {
-                      copyToClipboard(
-                        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                      );
+                      copyToClipboard(window.location.href);
                     }}
                   >
                     Copy Product Link
@@ -210,12 +236,9 @@ const SingleProduct = () => {
           <div className="col-12">
             <h4>Description</h4>
             <div className="bg-white p-3">
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro
-                facilis vero nihil dolor, expedita natus dolorem alias, veniam
-                quam ad unde. Ipsam eaque dolore, ab debitis nihil voluptate
-                alias exercitationem.
-              </p>
+              <p
+                dangerouslySetInnerHTML={{ __html: productState?.description }}
+              ></p>
             </div>
           </div>
         </div>

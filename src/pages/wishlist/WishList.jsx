@@ -12,7 +12,7 @@ const WishList = () => {
     dispatch(getUserWishList());
   }, []);
 
-  const wishListState = useSelector((state) => state.auth.wishlist.wishlist);
+  const wishListState = useSelector((state) => state?.auth?.wishlist?.wishlist);
 
   const removeWishList = (id) => {
     dispatch(addToWishList(id));
@@ -27,39 +27,40 @@ const WishList = () => {
       <BreadCrumb title="WishList" />
       <Container class1="wishlist-wrapper home-wrapper-2 py-5">
         <div className="row">
-          {wishListState.length === 0 && (
+          {wishListState && wishListState.length === 0 && (
             <div className="text-center fs-3">No data</div>
           )}
-          {wishListState.map((item, index) => {
-            return (
-              <div className="col-3" key={index}>
-                <div className="wishlist-card position-relative">
-                  <img
-                    onClick={() => removeWishList(item?._id)}
-                    src="images/cross.svg"
-                    alt="cross"
-                    className="position-absolute img-fluid cross"
-                  />
-                  <div className="wishlist-card-image bg-white ">
+          {wishListState &&
+            wishListState.map((item, index) => {
+              return (
+                <div className="col-3" key={index}>
+                  <div className="wishlist-card position-relative">
                     <img
-                      src={
-                        item?.images[0].url
-                          ? item?.images[0].url
-                          : "images/watch.jpg"
-                      }
-                      className="img-fluid d-block mx-auto"
-                      alt="watch"
-                      width={160}
+                      onClick={() => removeWishList(item?._id)}
+                      src="images/cross.svg"
+                      alt="cross"
+                      className="position-absolute img-fluid cross"
                     />
+                    <div className="wishlist-card-image bg-white ">
+                      <img
+                        src={
+                          item?.images[0].url
+                            ? item?.images[0].url
+                            : "images/watch.jpg"
+                        }
+                        className="img-fluid d-block mx-auto"
+                        alt="watch"
+                        width={160}
+                      />
+                    </div>
+                  </div>
+                  <div className="py-3">
+                    <h5 className="title-1">{item?.title}</h5>
+                    <h6 className="price-1"> {item?.price} VND</h6>
                   </div>
                 </div>
-                <div className="py-3">
-                  <h5 className="title-1">{item?.title}</h5>
-                  <h6 className="price-1"> {item?.price} VND</h6>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </Container>
     </>
