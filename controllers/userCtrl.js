@@ -15,6 +15,7 @@ const { generateToken } = require("../config/jwtToken");
 const crypto = require("crypto");
 const sendEmail = require("./emailCtrl");
 const { updateOne } = require("../models/couponModel");
+const { log } = require("console");
 
 //Register User
 
@@ -249,7 +250,7 @@ const updateUser = asyncHandle(async (req, res) => {
         lastname: req?.body?.lastname,
         username: req?.body?.username,
         email: req?.body?.email,
-        phone: req?.body?.phone,
+        mobile: req?.body?.mobile,
         role: req?.body?.role,
       },
       {
@@ -352,7 +353,7 @@ const forgotPasswordToken = asyncHandle(async (req, res) => {
   try {
     const token = await user.createPasswordToken();
     await user.save();
-    const resetURL = `Hi please follow this link reset your password. This link is valid till 10 minutes from now. <a href='http://localhost:5000/api/user/reset-password/${token}'>Click here</a> `;
+    const resetURL = `Hi please follow this link reset your password. This link is valid till 10 minutes from now. <a href='http://localhost:3000/reset-password/${token}'>Click here</a> `;
     const data = {
       to: email,
       subject: "Forgot Password Link",
@@ -361,6 +362,7 @@ const forgotPasswordToken = asyncHandle(async (req, res) => {
     };
     console.log(data);
     sendEmail(data);
+    // console.log(data);
     res.json(token);
   } catch (error) {
     throw new Error(error);
@@ -413,167 +415,267 @@ const getUserCart = asyncHandle(async (req, res) => {
     throw new Error(error);
   }
 });
-
-//empty cart
-
-const emptyCart = asyncHandle(async (req, res) => {
+// remove product from cart
+const removeProductFromCart = asyncHandle(async (req, res) => {
   const { _id } = req.user;
   validateMoongodbId(_id);
+  const { cartItemId } = req.params;
   try {
-    const user = await User.findOne({ _id });
-    const cart = await Cart.findOneAndRemove({ orderBy: user._id });
-    res.json(cart);
+    const deleteProductFromCart = await Cart.deleteOne({
+      userId: _id,
+      _id: cartItemId,
+    });
+    res.json(deleteProductFromCart);
   } catch (error) {
     throw new Error(error);
   }
 });
 
-//apply coupon
-
-const applyCoupon = asyncHandle(async (req, res) => {
-  const { coupon } = req.body;
+//update product quantity
+const updateProductQuantityFromCart = asyncHandle(async (req, res) => {
   const { _id } = req.user;
   validateMoongodbId(_id);
+  const { cartItemId, newQuantity } = req.params;
   try {
-    const validCoupon = await Coupon.findOne({ name: coupon });
-    if (validCoupon === null) {
-      throw new Error("Invalid Coupon");
-    }
-    const user = await User.findOne({ _id });
-    let { cartTotal } = await Cart.findOne({
-      orderBy: user._id,
-    }).populate("products.product");
-    let totalAfterDiscount = (
-      cartTotal -
-      (cartTotal * validCoupon.discount) / 100
-    ).toFixed(2);
-    await Cart.findOneAndUpdate(
-      { orderBy: user._id },
-      { totalAfterDiscount },
-      { new: true }
-    );
-    res.json(totalAfterDiscount);
+    const cartItem = await Cart.findOne({
+      userId: _id,
+      _id: cartItemId,
+    });
+    cartItem.quantity = newQuantity;
+    cartItem.save();
+    res.json(cartItem);
   } catch (error) {
     throw new Error(error);
   }
 });
 
 //create Order
-
 const createOrder = asyncHandle(async (req, res) => {
-  const { COD, couponApplied } = req.body;
-
+  const {
+    shippingInfo,
+    orderItems,
+    totalPrice,
+    totalPriceAfterDiscount,
+    paymentInfo,
+  } = req.body;
   const { _id } = req.user;
-  validateMoongodbId(_id);
   try {
-    if (!COD) {
-      throw new Error("Create cash order failed");
-    }
-    const user = await User.findById(_id);
-    let userCart = await Cart.findOne({ orderBy: user._id });
-    let finalAmount = 0;
-    if (couponApplied && userCart.totalAfterDiscount) {
-      finalAmount = userCart.totalAfterDiscount;
-    } else {
-      finalAmount = userCart.cartTotal;
-    }
-    let newOrder = await new Order({
-      products: userCart.products,
-      paymentIntent: {
-        id: uniqid(),
-        method: "COD",
-        amount: finalAmount,
-        status: "Cash on Delivery",
-        created: Date.now(),
-        currency: "usd",
-      },
-      orderBy: user._id,
-      orderStatus: "Cash on Delivery",
-    }).save();
-    let update = userCart.products.map((item) => {
-      return {
-        updateOne: {
-          filter: { _id: item.product._id },
-          update: { $inc: { quantity: -item.count, sold: +item.count } },
-        },
-      };
+    const order = await Order.create({
+      user: _id,
+      shippingInfo,
+      orderItems,
+      totalPrice,
+      totalPriceAfterDiscount,
+      paymentInfo,
     });
-    const updated = await Product.bulkWrite(update, {});
-    res.json({ message: "success" });
+    res.json({ order, success: "Order Created" });
   } catch (error) {
     throw new Error(error);
   }
 });
 
-//get Order
-
-const getOrder = asyncHandle(async (req, res) => {
+const getMyOrder = asyncHandle(async (req, res) => {
   const { _id } = req.user;
   validateMoongodbId(_id);
   try {
-    const userOrder = await Order.findOne({ orderBy: _id })
-      .populate("products.product")
-      .populate("orderBy")
-
-      .exec();
-    res.json(userOrder);
+    const orders = await Order.find({ user: _id })
+      .populate("user")
+      .populate("orderItems.product")
+      .populate("orderItems.color");
+    res.json({ orders });
   } catch (error) {
     throw new Error(error);
   }
 });
-
-//getAllOrder
 
 const getAllOrder = asyncHandle(async (req, res) => {
   try {
-    const alluserOrder = await Order.find()
-      .populate("products.product")
-      .populate("orderBy")
+    const orders = await Order.find().populate("user");
 
-      .exec();
-    res.json(alluserOrder);
+    res.json({ orders });
   } catch (error) {
     throw new Error(error);
   }
 });
-
-const getOrderByUserId = asyncHandle(async (req, res) => {
-  const { _id } = req.params;
-  validateMoongodbId(_id);
-  try {
-    const userOrder = await Order.findOne({ orderBy: _id })
-      .populate("products.product")
-      .populate("orderBy")
-
-      .exec();
-    res.json(userOrder);
-  } catch (error) {
-    throw new Error(error);
-  }
-});
-
-//update order
-
-const updateOrderStatus = asyncHandle(async (req, res) => {
-  const { status } = req.body;
+const getSingleOrder = asyncHandle(async (req, res) => {
   const { id } = req.params;
-  validateMoongodbId(id);
+  // validateMoongodbId(_id);
   try {
-    const updateOrderStatus = await Order.findByIdAndUpdate(
-      id,
-      {
-        orderStatus: status,
-        paymentIntent: {
-          status: status,
+    const orders = await Order.findOne({ _id: id })
+      .populate("orderItems.product")
+      .populate("orderItems.color");
+
+    res.json({ orders });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const updateOrder = asyncHandle(async (req, res) => {
+  const { id } = req.params;
+  // validateMoongodbId(_id);
+  try {
+    const orders = await Order.findById(id);
+    orders.orderStatus = req.body.status;
+    await orders.save();
+
+    res.json({ orders });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const getMothWiseOrderIncome = asyncHandle(async (req, res) => {
+  let monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let d = new Date();
+  let endDate = "";
+  d.setDate(1);
+  for (let index = 0; index < 11; index++) {
+    d.setMonth(d.getMonth() - 1);
+    endDate = monthNames[d.getMonth()] + " " + d.getFullYear();
+  }
+  const data = await Order.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $lte: new Date(),
+          $gte: new Date(endDate),
         },
       },
-      { new: true }
-    );
-    res.json(updateOrderStatus);
-  } catch (error) {
-    throw new Error(error);
-  }
+    },
+    {
+      $group: {
+        _id: {
+          month: "$month",
+        },
+        amount: { $sum: "$totalPriceAfterDiscount" },
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  res.json(data);
 });
+
+const getYearlyTotalOrder = asyncHandle(async (req, res) => {
+  let monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let d = new Date();
+  let endDate = "";
+  d.setDate(1);
+  for (let index = 0; index < 11; index++) {
+    d.setMonth(d.getMonth() - 1);
+    endDate = monthNames[d.getMonth()] + " " + d.getFullYear();
+  }
+  const data = await Order.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $lte: new Date(),
+          $gte: new Date(endDate),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+        amount: { $sum: "$totalPriceAfterDiscount" },
+      },
+    },
+  ]);
+  res.json(data);
+});
+
+// //apply coupon
+
+// const applyCoupon = asyncHandle(async (req, res) => {
+//   const { coupon } = req.body;
+//   const { _id } = req.user;
+//   validateMoongodbId(_id);
+//   try {
+//     const validCoupon = await Coupon.findOne({ name: coupon });
+//     if (validCoupon === null) {
+//       throw new Error("Invalid Coupon");
+//     }
+//     const user = await User.findOne({ _id });
+//     let { cartTotal } = await Cart.findOne({
+//       orderBy: user._id,
+//     }).populate("products.product");
+//     let totalAfterDiscount = (
+//       cartTotal -
+//       (cartTotal * validCoupon.discount) / 100
+//     ).toFixed(2);
+//     await Cart.findOneAndUpdate(
+//       { orderBy: user._id },
+//       { totalAfterDiscount },
+//       { new: true }
+//     );
+//     res.json(totalAfterDiscount);
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// });
+
+// //create Order
+
+// //get Order
+
+// //getAllOrder
+
+// const getAllOrder = asyncHandle(async (req, res) => {
+//   try {
+//     const alluserOrder = await Order.find()
+//       .populate("products.product")
+//       .populate("orderBy")
+
+//       .exec();
+//     res.json(alluserOrder);
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// });
+
+// const getOrderByUserId = asyncHandle(async (req, res) => {
+//   const { _id } = req.params;
+//   validateMoongodbId(_id);
+//   try {
+//     const userOrder = await Order.findOne({ orderBy: _id })
+//       .populate("products.product")
+//       .populate("orderBy")
+
+//       .exec();
+//     res.json(userOrder);
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// });
+
+// //update order
 
 module.exports = {
   register,
@@ -594,11 +696,15 @@ module.exports = {
   saveAddress,
   userCart,
   getUserCart,
-  emptyCart,
-  applyCoupon,
+
   createOrder,
-  getOrder,
+  removeProductFromCart,
+  updateProductQuantityFromCart,
+  getMyOrder,
+  getMothWiseOrderIncome,
+
+  getYearlyTotalOrder,
   getAllOrder,
-  updateOrderStatus,
-  getOrderByUserId,
+  getSingleOrder,
+  updateOrder,
 };
