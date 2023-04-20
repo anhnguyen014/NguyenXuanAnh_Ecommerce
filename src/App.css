@@ -371,6 +371,7 @@ color: var(--color-1c1c1b);
   object-fit: contain;
 }
 
+
 .product-card .product-image>.last{
   display: none;
   

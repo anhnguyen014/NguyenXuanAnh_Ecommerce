@@ -23,6 +23,7 @@ const ProductCard = (props) => {
   return (
     <>
       {data?.map((item, index) => {
+        console.log(item?.images[1]?.url);
         return (
           <div
             key={index}
@@ -43,13 +44,13 @@ const ProductCard = (props) => {
               </div>
               <div className="product-image">
                 <img
-                  src={item?.images[0].url}
+                  src={item?.images[0]?.url ? item?.images[0]?.url : watch}
                   className="img-fluid"
                   alt="product_image"
                 />
                 <img
-                  src={watch2}
-                  className="img-fluid last"
+                  src={item?.images[1]?.url ? item?.images[1]?.url : watch2}
+                  className="img-fluid last product-image"
                   alt="product_image"
                 />
               </div>
@@ -73,18 +74,18 @@ const ProductCard = (props) => {
               </div>
               <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">
-                  <button className="border-0 bg-transparent">
+                  {/* <button className="border-0 bg-transparent">
                     <img src={prodCompare} alt="prodcompare" />
-                  </button>
+                  </button> */}
                   <Link
                     to={"/product/" + item?._id}
                     className="border-0 bg-transparent"
                   >
                     <img src={view} alt="view" />
                   </Link>
-                  <button className="border-0 bg-transparent">
+                  {/* <button className="border-0 bg-transparent">
                     <img src={addcart} alt="addcart" />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

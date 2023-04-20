@@ -1,14 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import compare from "../images/compare.svg";
 import wishlist from "../images/wishlist.svg";
 import user from "../images/user.svg";
 import cart from "../images/cart.svg";
 import menu from "../images/menu.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
+import "react-bootstrap-typeahead/css/Typeahead.css";
+import { getAProduct } from "../features/products/productSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const cartState = useSelector((state) => state?.auth?.cartProducts);
+  const authState = useSelector((state) => state?.auth);
+  const [total, setTotal] = useState(null);
+  const [paginate, setPaginate] = useState(true);
+  const productState = useSelector((state) => state?.product?.products);
+  const [productOpt, setProductOpt] = useState([]);
+  const navigate = useNavigate();
+
+  // console.log(cartState);
+  useEffect(() => {
+    let sum = 0;
+    for (let index = 0; index < cartState?.length; index++) {
+      sum =
+        sum +
+        Number(cartState[index].quantity) * Number(cartState[index].price);
+      setTotal(sum);
+    }
+  }, [cartState]);
+
+  useEffect(() => {
+    let data = [];
+    for (let index = 0; index < productState?.length; index++) {
+      const element = productState[index];
+      data.push({ id: index, prod: element?._id, name: element?.title });
+    }
+    setProductOpt(data);
+  }, [productState]);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
   return (
     <>
       <header className="header-top-strip py-3">
@@ -40,12 +77,19 @@ const Header = () => {
             </div>
             <div className="col-5">
               <div className="input-group ">
-                <input
-                  type="text"
-                  className="form-control py-2"
-                  placeholder="Search product here..."
-                  aria-label="Search product here..."
-                  aria-describedby="basic-addon2"
+                <Typeahead
+                  id="pagination-example"
+                  onPaginate={() => console.log("Results paginated")}
+                  onChange={(selected) => {
+                    navigate(`/product/${selected[0]?.prod}`);
+                    dispatch(getAProduct(selected[0]?.prod));
+                    // window.location.reload();
+                  }}
+                  options={productOpt}
+                  minLength={2}
+                  labelKey={"name"}
+                  paginate={paginate}
+                  placeholder="Search for products here..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-6" />
@@ -54,7 +98,7 @@ const Header = () => {
             </div>
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
-                <div>
+                {/* <div>
                   <Link
                     to="/compare-product"
                     className="d-flex align-items-center gap-10 text-white"
@@ -65,7 +109,7 @@ const Header = () => {
                       Products
                     </p>
                   </Link>
-                </div>
+                </div> */}
                 <div>
                   <Link
                     to="/wishlist"
@@ -80,14 +124,23 @@ const Header = () => {
                 </div>
                 <div>
                   <Link
-                    to="/login"
+                    to={authState?.user === null ? "/login" : "/my-profile"}
                     className="d-flex align-items-center gap-10 text-white"
                   >
                     <img src={user} alt="" />
-                    <p className="mb-0">
-                      Log in <br />
-                      My Account
-                    </p>
+                    {authState?.user === null ? (
+                      <p className="mb-0">
+                        Log in <br />
+                        My Account
+                      </p>
+                    ) : (
+                      <p className="mb-0">
+                        Welcome <br />
+                        {authState?.user?.firstname +
+                          " " +
+                          authState?.user?.lastname}
+                      </p>
+                    )}
                   </Link>
                 </div>
                 <div>
@@ -97,8 +150,10 @@ const Header = () => {
                   >
                     <img src={cart} alt="" />
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">$ 500</p>
+                      <span className="badge bg-white text-dark">
+                        {cartState?.length ? cartState?.length : 0}
+                      </span>
+                      <p className="mb-0">{total ? total : 0} VND</p>
                     </div>
                   </Link>
                 </div>
@@ -155,8 +210,16 @@ const Header = () => {
                   <div className="d-flex align-items-center gap-30">
                     <NavLink to="/">Home</NavLink>
                     <NavLink to="/product">Our Store</NavLink>
+                    <NavLink to="/my-order">My Order</NavLink>
                     <NavLink to="/blog">Blogs</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
+                    <button
+                      onClick={handleLogout}
+                      className="border border-0 bg-transparent text-white text-uppercase"
+                      type="button"
+                    >
+                      Logout
+                    </button>
                   </div>
                 </div>
               </div>

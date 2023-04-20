@@ -256,12 +256,14 @@ const Home = () => {
                       </div>
                       <div className="product-image">
                         <img
-                          src={item?.images[0].url}
+                          src={item?.images[0]?.url}
                           className="img-fluid"
                           alt="product_image"
                         />
                         <img
-                          src={watch2}
+                          src={
+                            item?.images[1]?.url ? item?.images[1]?.url : watch2
+                          }
                           className="img-fluid last"
                           alt="product_image"
                         />
@@ -272,18 +274,18 @@ const Home = () => {
                         <ReactStars
                           count={5}
                           size={24}
-                          value={item?.totalRating.toString()}
+                          value={item?.totalRating}
                           edit={false}
                           activeColor="#ffd700"
                         />
 
-                        <p className="price">$ {item.price}</p>
+                        <p className="price">$ {item?.price}</p>
                       </div>
                       <div className="action-bar position-absolute">
                         <div className="d-flex flex-column gap-15">
-                          <button className="border-0 bg-transparent">
+                          {/* <button className="border-0 bg-transparent">
                             <img src={prodCompare} alt="prodcompare" />
-                          </button>
+                          </button> */}
                           <button className="border-0 bg-transparent">
                             <img
                               onClick={() => navigate("/product/" + item?._id)}
@@ -291,9 +293,9 @@ const Home = () => {
                               alt="view"
                             />
                           </button>
-                          <button className="border-0 bg-transparent">
+                          {/* <button className="border-0 bg-transparent">
                             <img src={addcart} alt="addcart" />
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </div>
@@ -380,7 +382,7 @@ const Home = () => {
                     title={item?.title}
                     brand={item?.brand}
                     price={item?.price}
-                    totalRating={item?.totalRating.toString()}
+                    totalRating={item?.totalRating}
                     sold={item?.sold}
                     quantity={item?.quantity}
                   />
@@ -412,13 +414,15 @@ const Home = () => {
                       </div>
                       <div className="product-image">
                         <img
-                          src={item?.images[0].url}
+                          src={item?.images[0]?.url}
                           className="img-fluid"
                           alt="product_image"
                         />
                         <img
-                          src={watch2}
-                          className="img-fluid last"
+                          src={
+                            item?.images[1]?.url ? item?.images[1]?.url : watch2
+                          }
+                          className="product-image img-fluid last"
                           alt="product_image"
                         />
                       </div>
@@ -428,7 +432,7 @@ const Home = () => {
                         <ReactStars
                           count={5}
                           size={24}
-                          value={item?.totalRating.toString()}
+                          value={item?.totalRating}
                           edit={false}
                           activeColor="#ffd700"
                         />
@@ -437,9 +441,9 @@ const Home = () => {
                       </div>
                       <div className="action-bar position-absolute">
                         <div className="d-flex flex-column gap-15">
-                          <button className="border-0 bg-transparent">
+                          {/* <button className="border-0 bg-transparent">
                             <img src={prodCompare} alt="prodcompare" />
-                          </button>
+                          </button> */}
                           <button className="border-0 bg-transparent">
                             <img
                               onClick={() => navigate("/product/" + item?._id)}
@@ -447,9 +451,9 @@ const Home = () => {
                               alt="view"
                             />
                           </button>
-                          <button className="border-0 bg-transparent">
+                          {/* <button className="border-0 bg-transparent">
                             <img src={addcart} alt="addcart" />
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </div>

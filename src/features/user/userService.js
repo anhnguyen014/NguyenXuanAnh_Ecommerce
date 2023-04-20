@@ -38,10 +38,56 @@ const getCart = async () => {
   const response = await axios.get(`${base_url}user/cart`, config);
   return response.data;
 };
+
+const removeProductFromCart = async (cartItemId) => {
+  const response = await axios.delete(
+    `${base_url}user/delete-product-cart/${cartItemId}`,
+
+    config
+  );
+  return response.data;
+};
+const updateProductInCart = async (cartDetail) => {
+  const response = await axios.delete(
+    `${base_url}user/update-product-cart/${cartDetail.cartItemId}/${cartDetail.quantity}`,
+    config
+  );
+  // console.log(cartDetail.cartItemId);
+  return response.data;
+};
+
+const createOrder = async (orderDetail) => {
+  const response = await axios.post(
+    `${base_url}user/cart/create-order`,
+    orderDetail,
+    config
+  );
+  return response.data;
+};
+
+const getUserOrder = async () => {
+  const response = await axios.get(`${base_url}user/get-my-order`, config);
+  return response.data;
+};
+
+const updateUser = async (userData) => {
+  const response = await axios.put(
+    `${base_url}user/edit-user`,
+    userData,
+    config
+  );
+  return response.data;
+};
+
 export const userService = {
   registerUser,
   loginUser,
   getUserWishList,
   addToCart,
   getCart,
+  removeProductFromCart,
+  updateProductInCart,
+  createOrder,
+  getUserOrder,
+  updateUser,
 };

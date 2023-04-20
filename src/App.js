@@ -23,6 +23,10 @@ import TernAndConditions from "./pages/policy/TernAndConditions";
 import SingleProduct from "./pages/product/SingleProduct";
 import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
+import { PrivateRouters } from "./routing/PrivateRouters";
+import { OpenRouters } from "./routing/OpenRouters";
+import Order from "./pages/order/Order";
+import Profile from "./pages/auth/Profile";
 
 function App() {
   return (
@@ -37,13 +41,64 @@ function App() {
             <Route path="product/:id" element={<SingleProduct />} />
             <Route path="blog" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
-            <Route path="cart" element={<Cart />} />
-            <Route path="checkout" element={<Checkout />} />
+            <Route
+              path="cart"
+              element={
+                <PrivateRouters>
+                  <Cart />
+                </PrivateRouters>
+              }
+            />
+            <Route
+              path="my-order"
+              element={
+                <PrivateRouters>
+                  <Order />
+                </PrivateRouters>
+              }
+            />
+            <Route
+              path="my-profile"
+              element={
+                <PrivateRouters>
+                  <Profile />
+                </PrivateRouters>
+              }
+            />
+            <Route
+              path="checkout"
+              element={
+                <PrivateRouters>
+                  <Checkout />
+                </PrivateRouters>
+              }
+            />
             <Route path="compare-product" element={<CompareProduct />} />
-            <Route path="wishlist" element={<WishList />} />
-            <Route path="login" element={<Login />} />
+            <Route
+              path="wishlist"
+              element={
+                <PrivateRouters>
+                  <WishList />
+                </PrivateRouters>
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <OpenRouters>
+                  <Login />
+                </OpenRouters>
+              }
+            />
             <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="register" element={<Register />} />
+            <Route
+              path="register"
+              element={
+                <OpenRouters>
+                  <Register />
+                </OpenRouters>
+              }
+            />
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
             <Route path="refund-policy" element={<RefundPolicy />} />
