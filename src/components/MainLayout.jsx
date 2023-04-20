@@ -5,6 +5,7 @@ import {
   AiOutlineUser,
   AiOutlineBgColors,
   AiOutlineContacts,
+  AiOutlineLogout,
 } from "react-icons/ai";
 import { RiCoupon2Line, RiCouponLine } from "react-icons/ri";
 import { SiBrandfolder } from "react-icons/si";
@@ -54,7 +55,10 @@ const MainLayout = () => {
           mode="inline"
           defaultSelectedKeys={[""]}
           onClick={({ key }) => {
-            if (key === "singout") {
+            if (key === "logout") {
+              localStorage.clear();
+              // navigate("/");
+              window.location.reload();
             } else {
               navigate(key);
             }
@@ -170,6 +174,11 @@ const MainLayout = () => {
               key: "enquiries",
               icon: <AiOutlineContacts className="fs-4" />,
               label: "Enquiries",
+            },
+            {
+              key: "logout",
+              icon: <AiOutlineLogout className="fs-4" />,
+              label: "Logout",
             },
           ]}
         />

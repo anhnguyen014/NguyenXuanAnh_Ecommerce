@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getAOrderByUser, getOrders } from "../../features/auth/authSlice";
+// import { getAOrderByUser, getOrders } from "../../features/auth/authSlice";
 
 import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
+import { getOrder } from "../../features/auth/authSlice";
 // import { getOrders } from "../../features/auth/authSlice";
 
 const columns = [
@@ -30,51 +31,39 @@ const columns = [
     dataIndex: "color",
   },
   {
-    title: "Price",
+    title: "Amount",
     dataIndex: "price",
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-  },
-
-  {
-    title: "Action",
-    dataIndex: "action",
   },
 ];
 
 const ViewOrder = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const userId = location.pathname.split("/")[3];
+  const orderId = location.pathname.split("/")[3];
   useEffect(() => {
-    dispatch(getAOrderByUser(userId));
-  }, [userId]);
-  const orderState = useSelector(
-    (state) => state.auth?.orderByUser[0]?.products
-  );
-  console.log(orderState);
+    dispatch(getOrder(orderId));
+  }, []);
+  const orderState = useSelector((state) => state?.auth?.singleOrder?.orders);
+  // console.log(orderState);
 
   const data1 = [];
-  for (let i = 0; i < orderState.length; i++) {
+  for (let i = 0; i < orderState?.orderItems?.length; i++) {
     data1.push({
       key: i + 1,
-      name: orderState[i].product.title,
-      brand: orderState[i].product.brand,
-      count: orderState[i].count,
-      price: orderState[i].product.price,
-      color: orderState[i].product.color[0],
-      date: new Date(orderState[i].product.createdAt).toLocaleString(),
-      action: (
-        <>
-          <Link className=" fs-4 text-success" to="/">
-            <FiEdit />
-          </Link>
-          <Link className="ms-3 fs-4 text-danger" to="">
-            <AiFillDelete />
-          </Link>
-        </>
+      name: orderState?.orderItems[i]?.product?.title,
+      brand: orderState?.orderItems[i]?.product?.brand,
+      count: orderState?.orderItems[i]?.quantity,
+      price: orderState?.orderItems[i]?.price,
+      color: (
+        <div>
+          <ul className="colors ps-0">
+            <li
+              style={{
+                backgroundColor: orderState?.orderItems[i]?.color?.title,
+              }}
+            ></li>
+          </ul>
+        </div>
       ),
     });
   }

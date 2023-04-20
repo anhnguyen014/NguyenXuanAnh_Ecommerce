@@ -24,14 +24,30 @@ import AddCoupon from "./pages/coupon/AddCoupon";
 import CouponList from "./pages/coupon/CouponList";
 import ViewEnq from "./pages/enquiry/ViewEnq";
 import ViewOrder from "./pages/orders/ViewOrder";
+import { PrivateRouters } from "./routing/PrivateRouters";
+import { OpenRouters } from "./routing/OpenRouters";
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <OpenRouters>
+              <Login />
+            </OpenRouters>
+          }
+        />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/admin" element={<MainLayout />}>
+        <Route
+          path="/admin"
+          element={
+            <PrivateRouters>
+              <MainLayout />
+            </PrivateRouters>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="enquiries" element={<Enquiries />} />
           <Route path="enquiry/:id" element={<ViewEnq />} />
