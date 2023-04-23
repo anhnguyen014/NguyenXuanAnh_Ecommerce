@@ -12,7 +12,7 @@ router.post(
   "/",
   authMiddleware,
   isAdmin,
-  uploadPhoto.array("images", 5),
+  uploadPhoto.array("images", 12),
   productImgResize,
   updateImages
 );

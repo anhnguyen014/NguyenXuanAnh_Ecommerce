@@ -157,9 +157,9 @@ const addToWishList = asyncHandle(async (req, res) => {
 
 const rating = asyncHandle(async (req, res) => {
   const { _id } = req.user;
-  console.log(_id);
+  // console.log(_id);
   const { star, prodId, comment } = req.body;
-  console.log(star, prodId);
+  // console.log(star, prodId);
   try {
     const product = await Product.findById(prodId);
     console.log(product);
