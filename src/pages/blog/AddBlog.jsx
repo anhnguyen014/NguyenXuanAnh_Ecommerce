@@ -26,11 +26,11 @@ const AddBlog = () => {
   useEffect(() => {
     if (getBlogId !== undefined) {
       dispatch(getABlog(getBlogId));
-      images.push(blogImage);
     } else {
       dispatch(resetState());
     }
   }, [getBlogId]);
+
   useEffect(() => {
     dispatch(getBCategories());
   }, []);
@@ -63,6 +63,7 @@ const AddBlog = () => {
       toast.error("Something went wrong!");
     }
   }, [isSuccess, isError, isLoading]);
+
   const images = [];
   imgState.forEach((i) => {
     images.push({
@@ -73,14 +74,15 @@ const AddBlog = () => {
 
   useEffect(() => {
     formik.values.images = images;
-  }, [blogImage]);
+  }, [images]);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       title: blogName || "",
       description: blogDesc || "",
       category: blogCategory || "",
-      images: "",
+      images: blogImage || "",
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Title is Required"),

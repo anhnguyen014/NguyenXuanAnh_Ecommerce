@@ -105,7 +105,9 @@ export const pcategorySlice = createSlice({
       .addCase(getAPCategory.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.pCategoryName = action.payload.title;
+        state.pCategoryImages = action.payload.images;
       })
       .addCase(getAPCategory.rejected, (state, action) => {
         state.isLoading = false;

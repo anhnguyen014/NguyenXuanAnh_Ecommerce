@@ -20,6 +20,10 @@ const columns = [
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
+  {
+    title: "Images",
+    dataIndex: "images",
+  },
 
   {
     title: "Action",
@@ -51,6 +55,13 @@ const Brandlist = () => {
     data1.push({
       key: i + 1,
       name: brandState[i].title,
+      images: (
+        <img
+          src={brandState[i]?.images[0]?.url}
+          alt=""
+          className="w-25 img-fluid"
+        />
+      ),
 
       action: (
         <>

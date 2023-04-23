@@ -26,6 +26,7 @@ export const updateABrand = createAsyncThunk(
   "brand/update-brand",
   async (brand, thunkAPI) => {
     try {
+      console.log(brand);
       return await brandService.updateBrand(brand);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -85,6 +86,21 @@ export const brandSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
+      .addCase(getABrand.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getABrand.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.brandName = action?.payload?.title;
+        state.brandImage = action?.payload?.images;
+      })
+      .addCase(getABrand.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
       .addCase(createBrand.pending, (state) => {
         state.isLoading = true;
       })
@@ -99,26 +115,13 @@ export const brandSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
-      .addCase(getABrand.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getABrand.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.brandName = action.payload.title;
-      })
-      .addCase(getABrand.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error;
-      })
       .addCase(updateABrand.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(updateABrand.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.updatedBrand = action.payload;
       })
       .addCase(updateABrand.rejected, (state, action) => {
