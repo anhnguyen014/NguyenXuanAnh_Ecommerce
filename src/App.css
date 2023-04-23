@@ -372,17 +372,17 @@ color: var(--color-1c1c1b);
 }
 
 
-.product-card .product-image>.last{
+/* .product-card .product-image>.last{
   display: none;
   
-}
-.product-card:hover .product-image>img:nth-child(1){
+} */
+/* .product-card:hover .product-image>img:nth-child(1){
   display: none;
 
-}
-.product-card:hover .product-image>.last{
+} */
+/* .product-card:hover .product-image>.last{
   display: block;
-}
+} */
 .description{
   font-size: 13px;
   color: var(--color-777777);
@@ -845,9 +845,12 @@ color: var(--color-1c1c1b);
 
 
 .main-product-image{
+  width: 100%;
+  height: 700px;
   padding: 20px;
   background-color: white;
   border-radius: 10px;
+  position: relative;
 }
 .main-product-image>div{
   border: 1px solid rgba(0, 0, 0, 0.25);
@@ -969,3 +972,79 @@ color: var(--color-1c1c1b);
 
 
 /* Shipping pages ends here */
+
+
+/* Product Details */
+
+.mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+.slider-image:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+
+
+
+
+
+/* Product Detail end here */

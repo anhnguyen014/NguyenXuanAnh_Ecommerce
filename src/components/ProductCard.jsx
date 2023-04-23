@@ -48,11 +48,6 @@ const ProductCard = (props) => {
                   className="img-fluid"
                   alt="product_image"
                 />
-                <img
-                  src={item?.images[1]?.url ? item?.images[1]?.url : watch2}
-                  className="img-fluid last product-image"
-                  alt="product_image"
-                />
               </div>
               <div className="product-details">
                 <h6 className="brand">{item?.brand}</h6>
@@ -60,7 +55,7 @@ const ProductCard = (props) => {
                 <ReactStars
                   count={5}
                   size={24}
-                  value={item?.totalRating.toString()}
+                  value={item?.totalRating}
                   edit={false}
                   activeColor="#ffd700"
                 />

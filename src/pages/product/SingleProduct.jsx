@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addRating, getAProduct } from "../../features/products/productSlice";
 import { toast } from "react-toastify";
 import { addProductToCart, getUserCart } from "../../features/user/userSlice";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const SingleProduct = () => {
   const location = useLocation();
@@ -65,14 +67,6 @@ const SingleProduct = () => {
     }
   };
 
-  const props = {
-    width: 400,
-    height: 600,
-    zoomWidth: 600,
-    img: productState?.images[0]?.url
-      ? productState?.images[0]?.url
-      : "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
-  };
   const [order, setOrder] = useState(true);
   const copyToClipboard = (text) => {
     console.log("text", text);
@@ -122,29 +116,19 @@ const SingleProduct = () => {
   return (
     <>
       <Meta title={"Product Details"} />
-      <BreadCrumb title="Product Details" />
+      <BreadCrumb title={productState?.title} />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-6">
-            <div className="main-product-image">
-              <div>
-                <ReactImageZoom {...props} />
-              </div>
-            </div>
-            <div className="other-product-images d-flex flex-wrap gap-15">
+            <Carousel showArrows={true} showStatus={false}>
               {productState?.images.map((item, index) => {
                 return (
                   <div key={index}>
-                    <img
-                      style={{ width: "160px", height: "auto" }}
-                      src={item?.url}
-                      className="img-fluid"
-                      alt=""
-                    />
+                    <img src={item?.url} alt="product" />
                   </div>
                 );
               })}
-            </div>
+            </Carousel>
           </div>
           <div className="col-6">
             <div className="main-product-details">
@@ -161,7 +145,9 @@ const SingleProduct = () => {
                     edit={false}
                     activeColor="#ffd700"
                   />
-                  <p className="mb-0 t-review">(2 Reviews)</p>
+                  <p className="mb-0 t-review">
+                    ( {productState?.ratings?.length} Reviews )
+                  </p>
                 </div>
                 <a className="review-btn" href="#review">
                   Write a Review

@@ -21,6 +21,8 @@ import prodCompare from "../../images/prodcompare.svg";
 import addcart from "../../images/add-cart.svg";
 import view from "../../images/view.svg";
 import ReactStars from "react-rating-stars-component";
+import { getBrands } from "../../features/brands/brandSlice";
+import { getAllCategories } from "../../features/categories/categorySlice";
 
 // import BreadCrumb from "../components/BreadCrumb";
 
@@ -30,6 +32,8 @@ const Home = () => {
   useEffect(() => {
     getProducts();
     getBlogs();
+    getAllBrand();
+    getCategories();
   }, []);
   const getProducts = () => {
     dispatch(getAllProduct());
@@ -37,12 +41,22 @@ const Home = () => {
   const getBlogs = () => {
     dispatch(getAllBlogs());
   };
+
+  const getAllBrand = () => {
+    dispatch(getBrands());
+  };
+
+  const getCategories = () => {
+    dispatch(getAllCategories());
+  };
   const addToWhish = (id) => {
     // alert(id);
     dispatch(addToWishList(id));
   };
   const productState = useSelector((state) => state?.product?.products);
   const blogState = useSelector((state) => state?.blog?.blogs);
+  const brandState = useSelector((state) => state?.brand?.brands);
+  const categoryState = useSelector((state) => state?.category?.categories);
   return (
     <>
       <Meta title={"E-commerce"} />
@@ -157,7 +171,52 @@ const Home = () => {
         <div className="row">
           <div className="col-12">
             <div className="categories d-flex justify-content-between  flex-wrap align-items-center">
-              <div className="d-flex  align-items-center py-2 ">
+              {categoryState &&
+                categoryState?.map((category, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="d-flex  align-items-center py-2 "
+                    >
+                      <div>
+                        <h6>{category?.title}</h6>
+                        <p>10 Items</p>
+                      </div>
+                      <img src={category?.images[0]?.url} alt="category" />
+                    </div>
+                  );
+                })}
+
+              {/* <div className="d-flex  align-items-center py-2">
+                <div>
+                  <h6>Smart Phones</h6>
+                  <p>10 Items</p>
+                </div>
+                <img
+                  className="smart"
+                  src="images/smartphone2.jpg"
+                  alt="smartphone"
+                />
+              </div>
+              <div className="d-flex  align-items-center py-2">
+                <div>
+                  <h6>Smart TV</h6>
+                  <p>10 Items</p>
+                </div>
+                <img src="images/tv.jpg" alt="tv" />
+              </div>
+              <div className="d-flex align-items-center py-2">
+                <div>
+                  <h6>Smart Watches</h6>
+                  <p>10 Items</p>
+                </div>
+                <img
+                  className="smart"
+                  src="images/smartwatch.jpg"
+                  alt="watch"
+                />
+              </div>
+              <div className="d-flex align-items-center py-2">
                 <div>
                   <h6>Cameras</h6>
                   <p>10 Items</p>
@@ -192,43 +251,7 @@ const Home = () => {
                   src="images/smartwatch.jpg"
                   alt="watch"
                 />
-              </div>
-              <div className="d-flex align-items-center py-2">
-                <div>
-                  <h6>Cameras</h6>
-                  <p>10 Items</p>
-                </div>
-                <img src="images/camera.jpg" alt="camera" />
-              </div>
-              <div className="d-flex  align-items-center py-2">
-                <div>
-                  <h6>Smart Phones</h6>
-                  <p>10 Items</p>
-                </div>
-                <img
-                  className="smart"
-                  src="images/smartphone2.jpg"
-                  alt="smartphone"
-                />
-              </div>
-              <div className="d-flex  align-items-center py-2">
-                <div>
-                  <h6>Smart TV</h6>
-                  <p>10 Items</p>
-                </div>
-                <img src="images/tv.jpg" alt="tv" />
-              </div>
-              <div className="d-flex align-items-center py-2">
-                <div>
-                  <h6>Smart Watches</h6>
-                  <p>10 Items</p>
-                </div>
-                <img
-                  className="smart"
-                  src="images/smartwatch.jpg"
-                  alt="watch"
-                />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -258,13 +281,6 @@ const Home = () => {
                         <img
                           src={item?.images[0]?.url}
                           className="img-fluid"
-                          alt="product_image"
-                        />
-                        <img
-                          src={
-                            item?.images[1]?.url ? item?.images[1]?.url : watch2
-                          }
-                          className="img-fluid last"
                           alt="product_image"
                         />
                       </div>
@@ -418,13 +434,6 @@ const Home = () => {
                           className="img-fluid"
                           alt="product_image"
                         />
-                        <img
-                          src={
-                            item?.images[1]?.url ? item?.images[1]?.url : watch2
-                          }
-                          className="product-image img-fluid last"
-                          alt="product_image"
-                        />
                       </div>
                       <div className="product-details">
                         <h6 className="brand">{item?.brand}</h6>
@@ -468,10 +477,16 @@ const Home = () => {
           <div className="col-12">
             <div className="marque-inner-wrapper card-wrapper">
               <Marquee className="d-flex">
-                <div className="mx-4 w-25">
-                  <img src="images/brand-01.png" alt="brand" />
-                </div>
-                <div className="mx-4 w-25">
+                {brandState &&
+                  brandState?.map((item, index) => {
+                    return (
+                      <div key={index} className="mx-4 w-25">
+                        <img src={item?.images[0]?.url} alt="brand" />
+                      </div>
+                    );
+                  })}
+
+                {/* <div className="mx-4 w-25">
                   <img src="images/brand-02.png" alt="brand" />
                 </div>
                 <div className="mx-4 w-25">
@@ -491,7 +506,7 @@ const Home = () => {
                 </div>
                 <div className="mx-4 w-25">
                   <img src="images/brand-08.png" alt="brand" />
-                </div>
+                </div> */}
               </Marquee>
             </div>
           </div>

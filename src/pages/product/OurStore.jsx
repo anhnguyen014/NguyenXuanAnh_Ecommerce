@@ -151,8 +151,8 @@ const OurStore = () => {
                     id=""
                     onChange={(e) => setSort(e.target.value)}
                   >
-                    <option value="title">Name_A-Z</option>
-                    <option value="-title">Name_Z-A</option>
+                    <option value="-title">Name_A-Z</option>
+                    <option value="title">Name_Z-A</option>
                     <option value="price">Price_Low-High</option>
                     <option value="-price">Price_High-Low</option>
                     <option value="createdAt">Date_Old-New</option>
