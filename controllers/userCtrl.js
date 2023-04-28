@@ -431,6 +431,19 @@ const removeProductFromCart = asyncHandle(async (req, res) => {
   }
 });
 
+const emptyCart = asyncHandle(async (req, res) => {
+  const { _id } = req.user;
+  validateMoongodbId(_id);
+  try {
+    const deleteCart = await Cart.deleteMany({
+      userId: _id,
+    });
+    res.json(deleteCart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 //update product quantity
 const updateProductQuantityFromCart = asyncHandle(async (req, res) => {
   const { _id } = req.user;
@@ -468,7 +481,7 @@ const createOrder = asyncHandle(async (req, res) => {
       totalPriceAfterDiscount,
       paymentInfo,
     });
-    res.json({ order, success: "Order Created" });
+    res.json({ order, success: true });
   } catch (error) {
     throw new Error(error);
   }
@@ -707,4 +720,5 @@ module.exports = {
   getAllOrder,
   getSingleOrder,
   updateOrder,
+  emptyCart,
 };

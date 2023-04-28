@@ -28,6 +28,7 @@ const {
   getAllOrder,
   getSingleOrder,
   updateOrder,
+  emptyCart,
 } = require("../controllers/userCtrl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddlewares");
 const { checkout, paymentVerification } = require("../controllers/paymentCtrl");
@@ -80,6 +81,7 @@ router.delete(
   authMiddleware,
   updateProductQuantityFromCart
 );
+router.delete("/empty-cart", authMiddleware, emptyCart);
 
 router.delete("/:id", authMiddleware, isAdmin, deleteUser);
 
