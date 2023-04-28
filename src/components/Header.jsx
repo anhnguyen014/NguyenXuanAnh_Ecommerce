@@ -10,17 +10,38 @@ import menu from "../images/menu.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { getAProduct } from "../features/products/productSlice";
+import { getAProduct, getAllProduct } from "../features/products/productSlice";
+import { getUserCart } from "../features/user/userSlice";
+import { getAllCategories } from "../features/categories/categorySlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state?.auth?.cartProducts);
+
   const authState = useSelector((state) => state?.auth);
   const [total, setTotal] = useState(null);
   const [paginate, setPaginate] = useState(true);
   const productState = useSelector((state) => state?.product?.products);
   const [productOpt, setProductOpt] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  //filter state
+  const [category, setCategory] = useState(null);
+
   const navigate = useNavigate();
+  const getTokenFromLocalStorage = localStorage.getItem("customer")
+    ? JSON.parse(localStorage.getItem("customer"))
+    : null;
+  const config2 = {
+    headers: {
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+    },
+  };
+  useEffect(() => {
+    dispatch(getUserCart(config2));
+  }, []);
 
   // console.log(cartState);
   useEffect(() => {
@@ -41,6 +62,22 @@ const Header = () => {
     }
     setProductOpt(data);
   }, [productState]);
+
+  useEffect(() => {
+    let newCategories = [];
+    for (let index = 0; index < productState?.length; index++) {
+      const element = productState[index];
+      newCategories.push(element?.category);
+    }
+    setCategories(newCategories);
+  }, [productState]);
+
+  useEffect(() => {
+    getProducts();
+  }, [category]);
+  const getProducts = () => {
+    dispatch(getAllProduct({ category }));
+  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -186,12 +223,22 @@ const Header = () => {
                         className="dropdown-menu"
                         aria-labelledby="dropdownMenuButton1"
                       >
-                        <li>
-                          <Link className="dropdown-item text-white" to="">
-                            Action
-                          </Link>
-                        </li>
-                        <li>
+                        {categories &&
+                          [...new Set(categories)]?.map((item, index) => {
+                            return (
+                              <li key={index}>
+                                <Link
+                                  onClick={() => setCategory(item)}
+                                  className="dropdown-item text-white"
+                                  to="/product"
+                                >
+                                  {item}
+                                </Link>
+                              </li>
+                            );
+                          })}
+
+                        {/* <li>
                           <Link className="dropdown-item text-white" to="">
                             Another action
                           </Link>
@@ -201,7 +248,7 @@ const Header = () => {
                           <Link className="dropdown-item text-white" to="">
                             Something else here
                           </Link>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>

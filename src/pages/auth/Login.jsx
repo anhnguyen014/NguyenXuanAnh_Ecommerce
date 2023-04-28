@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import Meta from "../../components/Meta";
@@ -16,7 +16,7 @@ const loginSchema = yup.object({
 });
 
 const Login = () => {
-  const userState = useSelector((state) => state.auth);
+  const userState = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -29,11 +29,14 @@ const Login = () => {
       dispatch(loginUser(values));
       // console.log(userState.isSuccess);
 
-      navigate("/");
-
       // alert(JSON.stringify(values, null, 2));
     },
   });
+  useEffect(() => {
+    if (userState.user !== null && userState.isError === false) {
+      navigate("/");
+    }
+  }, [userState]);
   return (
     <>
       <Meta title={"Login"} />

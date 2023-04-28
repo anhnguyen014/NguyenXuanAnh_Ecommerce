@@ -180,9 +180,13 @@ const Home = () => {
                     >
                       <div>
                         <h6>{category?.title}</h6>
-                        <p>10 Items</p>
                       </div>
-                      <img src={category?.images[0]?.url} alt="category" />
+                      <img
+                        src={category?.images[0]?.url}
+                        alt="category"
+                        width={60}
+                        height={60}
+                      />
                     </div>
                   );
                 })}
@@ -286,7 +290,9 @@ const Home = () => {
                       </div>
                       <div className="product-details">
                         <h6 className="brand">{item?.brand}</h6>
-                        <h5 className="product-title">{item?.title}</h5>
+                        <h5 className="product-title">
+                          {item?.title?.substr(0, 30) + "..."}
+                        </h5>
                         <ReactStars
                           count={5}
                           size={24}
@@ -395,7 +401,7 @@ const Home = () => {
                   <SpecialProduct
                     key={index}
                     id={item?._id}
-                    title={item?.title}
+                    title={item?.title?.substr(0, 35) + "..."}
                     brand={item?.brand}
                     price={item?.price}
                     totalRating={item?.totalRating}
@@ -437,7 +443,9 @@ const Home = () => {
                       </div>
                       <div className="product-details">
                         <h6 className="brand">{item?.brand}</h6>
-                        <h5 className="product-title">{item?.title}</h5>
+                        <h5 className="product-title">
+                          {item?.title?.substr(0, 30) + "..."}
+                        </h5>
                         <ReactStars
                           count={5}
                           size={24}

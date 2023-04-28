@@ -16,6 +16,16 @@ const profileSchema = yup.object({
 });
 
 const Profile = () => {
+  const getTokenFromLocalStorage = localStorage.getItem("customer")
+    ? JSON.parse(localStorage.getItem("customer"))
+    : null;
+  const config2 = {
+    headers: {
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+    },
+  };
   const dispatch = useDispatch();
   const [edit, setEdit] = useState(true);
 
@@ -30,13 +40,14 @@ const Profile = () => {
     },
     validationSchema: profileSchema,
     onSubmit: (values) => {
-      dispatch(editUser(values));
+      dispatch(editUser({ data: values, config2: config2 }));
       setEdit(true);
       // console.log(userState.isSuccess);
 
       // alert(JSON.stringify(values, null, 2));
     },
   });
+
   return (
     <>
       <Meta title={"Profile"} />

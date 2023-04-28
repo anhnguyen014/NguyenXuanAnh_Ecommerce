@@ -161,7 +161,7 @@ const OurStore = () => {
                 </div>
                 <div className="d-flex align-items-center gap-10">
                   <p className="total-products mb-0" style={{ width: "100px" }}>
-                    21 Products
+                    {productState?.length} products
                   </p>
                   <div className="d-flex gap-10 align-items-center grid">
                     <img

@@ -34,16 +34,16 @@ const addToCart = async (cartData) => {
   return response.data;
 };
 
-const getCart = async () => {
-  const response = await axios.get(`${base_url}user/cart`, config);
+const getCart = async (data) => {
+  const response = await axios.get(`${base_url}user/cart`, data);
   return response.data;
 };
 
-const removeProductFromCart = async (cartItemId) => {
+const removeProductFromCart = async (data) => {
   const response = await axios.delete(
-    `${base_url}user/delete-product-cart/${cartItemId}`,
+    `${base_url}user/delete-product-cart/${data.id}`,
 
-    config
+    data.config2
   );
   return response.data;
 };
@@ -73,9 +73,14 @@ const getUserOrder = async () => {
 const updateUser = async (userData) => {
   const response = await axios.put(
     `${base_url}user/edit-user`,
-    userData,
-    config
+    userData.data,
+    userData.config2
   );
+  return response.data;
+};
+
+const emptyCart = async (data) => {
+  const response = await axios.delete(`${base_url}user/empty-cart`, data);
   return response.data;
 };
 
@@ -90,4 +95,5 @@ export const userService = {
   createOrder,
   getUserOrder,
   updateUser,
+  emptyCart,
 };

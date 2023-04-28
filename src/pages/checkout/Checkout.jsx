@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import Meta from "../../components/Meta";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
@@ -10,7 +10,12 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { config } from "../../utils/axiosConfig";
-import { createAOrder } from "../../features/user/userSlice";
+import {
+  createAOrder,
+  deleteUserCart,
+  getUserCart,
+  resetState,
+} from "../../features/user/userSlice";
 
 const shippingSchema = yup.object({
   firstName: yup.string().required("First Name is required"),
@@ -25,13 +30,11 @@ const shippingSchema = yup.object({
 
 const Checkout = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [totalAmount, setTotalAmount] = useState(null);
   const [shippingInfo, setShippingInfo] = useState(null);
   const [cartProductState, setCartProductState] = useState([]);
-  const [paymentInfo, setPaymentInfo] = useState({
-    razorpayPaymentId: "",
-    razorpayOrderId: "",
-  });
+
   // console.log(paymentInfo, shippingInfo);
   const formik = useFormik({
     initialValues: {
@@ -47,6 +50,7 @@ const Checkout = () => {
     validationSchema: shippingSchema,
     onSubmit: (values) => {
       setShippingInfo(values);
+      localStorage.setItem("address", JSON.stringify(values));
       setTimeout(() => {
         checkOutHandler();
       }, 600);
@@ -58,7 +62,22 @@ const Checkout = () => {
     console.log(shippingInfo);
   };
 
-  const cartState = useSelector((state) => state.auth.cartProducts);
+  const cartState = useSelector((state) => state?.auth?.cartProducts);
+  const authState = useSelector((state) => state?.auth);
+
+  const getTokenFromLocalStorage = localStorage.getItem("customer")
+    ? JSON.parse(localStorage.getItem("customer"))
+    : null;
+  const config2 = {
+    headers: {
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+    },
+  };
+  useEffect(() => {
+    dispatch(getUserCart(config2));
+  }, []);
   // console.log(cartState);
   useEffect(() => {
     let sum = 0;
@@ -68,6 +87,15 @@ const Checkout = () => {
       setTotalAmount(sum);
     }
   }, [cartState]);
+
+  useEffect(() => {
+    if (
+      authState?.orderedProduct?.order !== null &&
+      authState?.orderedProduct?.success === true
+    ) {
+      navigate("/my-order");
+    }
+  }, [authState]);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -135,20 +163,19 @@ const Checkout = () => {
           data,
           config
         );
-        setPaymentInfo({
-          razorpayPaymentId: response.razorpay_payment_id,
-          razorpayOrderId: response.razorpay_order_id,
-        });
 
         dispatch(
           createAOrder({
             totalPrice: totalAmount,
             totalPriceAfterDiscount: totalAmount,
             orderItems: cartProductState,
-            paymentInfo,
-            shippingInfo,
+            paymentInfo: result.data,
+            shippingInfo: JSON.parse(localStorage.getItem("address")),
           })
         );
+        dispatch(deleteUserCart(config2));
+        localStorage.removeItem("address");
+        dispatch(resetState());
       },
 
       prefill: {

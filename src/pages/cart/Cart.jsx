@@ -13,6 +13,16 @@ import {
 } from "../../features/user/userSlice";
 
 const Cart = () => {
+  const getTokenFromLocalStorage = localStorage.getItem("customer")
+    ? JSON.parse(localStorage.getItem("customer"))
+    : null;
+  const config2 = {
+    headers: {
+      Authorization: `Bearer ${
+        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+      }`,
+    },
+  };
   const dispatch = useDispatch();
   const [productUpdateDetail, setProductUpdateDetail] = useState(null);
   const [totalAmount, setTotalAmount] = useState(null);
@@ -21,7 +31,7 @@ const Cart = () => {
   const userCartState = useSelector((state) => state.auth.cartProducts);
 
   useEffect(() => {
-    dispatch(getUserCart());
+    dispatch(getUserCart(config2));
   }, []);
   // console.log(userCartState);
   useEffect(() => {
@@ -34,14 +44,14 @@ const Cart = () => {
       );
       // console.log(productUpdateDetail.caItemId);
       setTimeout(() => {
-        dispatch(getUserCart());
+        dispatch(getUserCart(config2));
       }, 200);
     }
   }, [productUpdateDetail]);
   const deleteACartProduct = (id) => {
-    dispatch(deleteCartProduct(id));
+    dispatch(deleteCartProduct({ id: id, config2: config2 }));
     setTimeout(() => {
-      dispatch(getUserCart());
+      dispatch(getUserCart(config2));
     }, 200);
   };
 
@@ -112,15 +122,11 @@ const Cart = () => {
                         <input
                           type="number"
                           className="form-control"
-                          name=""
+                          name={"quantity" + item?._id}
                           min={1}
                           max={10}
-                          id=""
-                          value={
-                            productUpdateDetail?.quantity
-                              ? productUpdateDetail?.quantity
-                              : item?.quantity
-                          }
+                          id={"cart" + item?._id}
+                          value={item?.quantity}
                           onChange={(e) => {
                             // console.log(item?._id);
                             setProductUpdateDetail({
