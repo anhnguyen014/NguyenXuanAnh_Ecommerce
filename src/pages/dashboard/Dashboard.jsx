@@ -90,8 +90,14 @@ const Dashboard = () => {
         name:
           orderState[i]?.user?.firstname + " " + orderState[i]?.user?.lastname,
         product: orderState[i]?.orderItems?.length,
-        price: orderState[i]?.totalPrice,
-        dprice: orderState[i]?.totalPriceAfterDiscount,
+        price: orderState[i]?.totalPrice.toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }),
+        dprice: orderState[i]?.totalPriceAfterDiscount.toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }),
         status: orderState[i]?.orderStatus,
       });
     }
@@ -162,47 +168,51 @@ const Dashboard = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Dashboard</h3>
+      <h3 className="mb-4 title">Bảng điều khiển</h3>
       <div className="d-flex justify-content-between align-items-center gap-3">
         <div className="d-flex p-3 justify-content-between align-items-end bg-white p-3 flex-grow-1 rounded-3">
           <div>
-            <p className="desc">Total Income</p>
+            <p className="desc">Tổng thu nhập</p>
             <h4 className="mb-0 sub-title">
-              $ {yearlyDataState && yearlyDataState[0]?.amount}
+              {yearlyDataState &&
+                yearlyDataState[0]?.amount?.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
             </h4>
           </div>
           <div className="d-flex flex-column align-items-end">
-            <p className="mb-0 desc">Income in Last Year from Today </p>
+            <p className="mb-0 desc">Thu nhập trong năm(đến hôm nay) </p>
           </div>
         </div>
         <div className="d-flex p-3 justify-content-between align-items-end bg-white p-3 flex-grow-1 rounded-3">
           <div>
-            <p className="desc">Total Sales</p>
+            <p className="desc">Tổng doanh thu</p>
             <h4 className="mb-0 sub-title">
-              {yearlyDataState && yearlyDataState[0]?.count}
+              {yearlyDataState && yearlyDataState[0]?.count} sản phẩm
             </h4>
           </div>
           <div className="d-flex flex-column align-items-end">
-            <p className="mb-0 desc">Sales in Last Year from Today</p>
+            <p className="mb-0 desc">Số hàng bán trong năm(đến hôm nay)</p>
           </div>
         </div>
       </div>
       <div className="d-flex justify-content-between gap-3">
         <div className="mt-4 flex-grow-1 w-50">
-          <h3 className="mb-5 title">Income Statics</h3>
+          <h3 className="mb-5 title">Thống kê thu nhập</h3>
           <div className="bg-white p-4">
             <Column {...config} />
           </div>
         </div>
         <div className="mt-4 flex-grow-1 w-50">
-          <h3 className="mb-5 title">Sales Statics</h3>
+          <h3 className="mb-5 title">Thống kê doanh số</h3>
           <div className="bg-white p-4">
             <Column {...config2} />
           </div>
         </div>
       </div>
       <div className="mt-4">
-        <h3 className="mb-5 title">Recent Orders</h3>
+        <h3 className="mb-5 title">Đơn đặt hàng gần đây</h3>
         <div>
           <Table columns={columns} dataSource={orderData} />
         </div>

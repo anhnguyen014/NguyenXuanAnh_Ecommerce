@@ -26,10 +26,7 @@ const columns = [
     title: "Images",
     dataIndex: "images",
   },
-  {
-    title: "Description",
-    dataIndex: "description",
-  },
+
   {
     title: "Category",
     dataIndex: "category",
@@ -69,7 +66,7 @@ const Bloglist = () => {
           className="w-25 img-fluid"
         />
       ),
-      description: blogState[i].description,
+
       category: blogState[i].category,
       action: (
         <>
