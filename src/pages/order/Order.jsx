@@ -24,16 +24,16 @@ const Order = () => {
           <div className="col-12">
             <div className="row">
               <div className="col-3">
-                <h5>Order Id</h5>
+                <h5>Mã đơn hàng</h5>
               </div>
               <div className="col-3">
-                <h5>Total Amount</h5>
+                <h5>Tổng tiền</h5>
               </div>
               <div className="col-3">
-                <h5>Total Amount after Discount</h5>
+                <h5>Tổng tiền sau giảm giá</h5>
               </div>
               <div className="col-3">
-                <h5>Status</h5>
+                <h5>Trạng thái</h5>
               </div>
             </div>
           </div>
@@ -74,16 +74,16 @@ const Order = () => {
                     >
                       <div className="row  py-3">
                         <div className="col-3">
-                          <h6 className="text-white">Product Name</h6>
+                          <h6 className="text-white">Tên sản phẩm</h6>
                         </div>
                         <div className="col-3">
-                          <h6 className="text-white">Quantity</h6>
+                          <h6 className="text-white">Số lượng</h6>
                         </div>
                         <div className="col-3">
-                          <h6 className="text-white">Price</h6>
+                          <h6 className="text-white">Giá</h6>
                         </div>
                         <div className="col-3">
-                          <h6 className="text-white">Color</h6>
+                          <h6 className="text-white">Màu</h6>
                         </div>
                         {item?.orderItems?.map((i, index) => {
                           return (

@@ -10,7 +10,11 @@ import { TbGitCompare } from "react-icons/tb";
 import { AiOutlineHeart } from "react-icons/ai";
 import Container from "../../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { addRating, getAProduct } from "../../features/products/productSlice";
+import {
+  addRating,
+  addToWishList,
+  getAProduct,
+} from "../../features/products/productSlice";
 import { toast } from "react-toastify";
 import { addProductToCart, getUserCart } from "../../features/user/userSlice";
 import { Carousel } from "react-responsive-carousel";
@@ -113,6 +117,11 @@ const SingleProduct = () => {
     return false;
   };
 
+  const addToWhish = (id) => {
+    // alert(id);
+    dispatch(addToWishList(id));
+  };
+
   return (
     <>
       <Meta title={"Product Details"} />
@@ -128,7 +137,7 @@ const SingleProduct = () => {
               {productState?.images.map((item, index) => {
                 return (
                   <div key={index}>
-                    <img src={item?.url} alt="product" />
+                    <img src={item?.url} alt="product" className="img-fluid" />
                   </div>
                 );
               })}
@@ -155,24 +164,24 @@ const SingleProduct = () => {
                     activeColor="#ffd700"
                   />
                   <p className="mb-0 t-review">
-                    ( {productState?.ratings?.length} Reviews )
+                    ( {productState?.ratings?.length} Đánh giá )
                   </p>
                 </div>
                 <a className="review-btn" href="#review">
-                  Write a Review
+                  Viết đánh giá
                 </a>
               </div>
               <div className="py-3 ">
-                <div className="d-flex gap-10 align-items-center my-2">
+                {/* <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Type: </h3>
                   <p className="product-data">Watch</p>
-                </div>
+                </div> */}
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Brand: </h3>
+                  <h3 className="product-heading">Hãng: </h3>
                   <p className="product-data">{productState?.brand}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Category: </h3>
+                  <h3 className="product-heading">Loại: </h3>
                   <p className="product-data">{productState?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
@@ -200,7 +209,7 @@ const SingleProduct = () => {
                   <div className="d-flex align-items-center gap-30 ms-5">
                     {alreadyAdded === false && (
                       <>
-                        <h3 className="product-heading ">Quantity: </h3>
+                        <h3 className="product-heading ">Số lượng: </h3>
                         <div className="">
                           <input
                             type="number"
@@ -230,27 +239,31 @@ const SingleProduct = () => {
                           alreadyAdded ? navigate("/cart") : uploadCart();
                         }}
                       >
-                        {alreadyAdded ? "Go to Cart" : "Add to Cart"}
+                        {alreadyAdded ? "Đi đến giỏ hàng" : "Thêm vào giỏ hàng"}
                       </button>
                     </div>
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
                   <div>
-                    <a href="">
+                    <Link
+                      onClick={(e) => {
+                        addToWhish(productState?._id);
+                      }}
+                    >
                       <AiOutlineHeart className="fs-5 me-2" />
-                      Add to wishlist
-                    </a>
+                      Thêm vào yêu thích
+                    </Link>
                   </div>
-                  <div>
+                  {/* <div>
                     <a href="">
                       <TbGitCompare className="fs-5 me-2" />
                       Add to compare
                     </a>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="d-flex gap-10 flex-column my-3">
-                  <h3 className="product-heading">Shipping & Returns: </h3>
+                  <h3 className="product-heading">Vận chuyển và trả lại: </h3>
                   <p className="product-data">
                     Lorem ipsum dolor sit amet consectetur,{" "}
                     <b>adipisicing elit. Eveniet quam omnis numquam id</b>,
@@ -260,17 +273,17 @@ const SingleProduct = () => {
                   </p>
                 </div>
                 <div className="d-flex gap-10 flex-column my-3">
-                  <h3 className="product-heading mb-0">Product Link: </h3>
+                  <h3 className="product-heading mb-0">Link sản phẩm: </h3>
                   <a
                     href="javascript:void(0);"
                     onClick={() => {
                       copyToClipboard(window.location.href);
                     }}
                   >
-                    Copy Product Link
+                    Nhấn vào để lấy link
                   </a>
                 </div>
-                <div className="d-flex gap-10 flex-column my-3">
+                {/* <div className="d-flex gap-10 flex-column my-3">
                   <h3 className="product-heading">Shipping & Returns: </h3>
                   <p className="product-data">
                     Lorem ipsum dolor sit amet consectetur,{" "}
@@ -279,7 +292,7 @@ const SingleProduct = () => {
                     <b>asperiores natus recusandae rerum</b> exercitationem unde
                     maiores similique obcaecati <b>5-10 business days!</b>
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -288,7 +301,7 @@ const SingleProduct = () => {
       <Container class1="description-wrapper  home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h4>Description</h4>
+            <h4>Mô tả</h4>
             <div className="bg-white p-3">
               <p
                 dangerouslySetInnerHTML={{ __html: productState?.description }}
@@ -300,32 +313,34 @@ const SingleProduct = () => {
       <Container class1="reviews-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 id="review">Reviews</h3>
+            <h3 id="review">Nhận xét</h3>
             <div className="review-inner-wrapper">
               <div className="review-head d-flex justify-content-between align-items-end">
                 <div>
-                  <h4 className="mb-3">Customer Reviews</h4>
+                  <h4 className="mb-3">Phản hồi khách hàng</h4>
                   <div className="d-flex align-items-center gap-10">
                     <ReactStars
                       count={5}
                       size={24}
-                      value={4}
+                      value={productState?.totalRating}
                       edit={false}
                       activeColor="#ffd700"
                     />
-                    <p className="mb-0">Based on 2 Reviews</p>
+                    <p className="mb-0">
+                      Dựa trên {productState?.ratings?.length} đánh giá
+                    </p>
                   </div>
                 </div>
                 {order && (
                   <div>
                     <Link to="" className="text-dark text-decoration-underline">
-                      Write a reviews
+                      Viết đánh giá
                     </Link>
                   </div>
                 )}
               </div>
               <div className="review-form py-4">
-                <h4>Write a review</h4>
+                <h4>Viết đánh giá</h4>
                 <div>
                   <ReactStars
                     count={5}
@@ -345,7 +360,7 @@ const SingleProduct = () => {
                     id=""
                     cols="30"
                     rows="4"
-                    placeholder="Comments"
+                    placeholder="Viết nhận xét ..."
                     onChange={(e) => setComment(e.target.value)}
                   ></textarea>
                 </div>
@@ -355,7 +370,7 @@ const SingleProduct = () => {
                     className="button mt-3"
                     type="button"
                   >
-                    Submit Review
+                    Gửi đánh giá
                   </button>
                 </div>
               </div>
@@ -386,7 +401,7 @@ const SingleProduct = () => {
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Our Popular Products</h3>
+            <h3 className="section-heading">Sản phẩm phổ biến</h3>
           </div>
           <ProductCard data={popularProduct} />
         </div>

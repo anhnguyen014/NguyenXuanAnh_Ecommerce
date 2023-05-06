@@ -47,7 +47,7 @@ const Contact = () => {
   return (
     <>
       <Meta title={"Contact"} />
-      <BreadCrumb title="Contact Us" />
+      <BreadCrumb title="Liên hệ với chúng tôi" />
       <Container class1="contact-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12 ">
@@ -64,7 +64,7 @@ const Contact = () => {
           <div className="col-12 mt-5">
             <div className="contact-inner-wrapper d-flex justify-content-between ">
               <div>
-                <h3 className="contact-title mb-4">Contact </h3>
+                <h3 className="contact-title mb-4">Liên hệ </h3>
                 <form
                   action=""
                   onSubmit={formik.handleSubmit}
@@ -74,7 +74,7 @@ const Contact = () => {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Name"
+                      placeholder="Tên"
                       name="name"
                       onChange={formik.handleChange("name")}
                       onBlur={formik.handleBlur("name")}
@@ -102,7 +102,7 @@ const Contact = () => {
                     <input
                       type="tel"
                       className="form-control"
-                      placeholder="Mobile Number"
+                      placeholder="Số điênh thoại"
                       name="mobile"
                       onChange={formik.handleChange("mobile")}
                       onBlur={formik.handleBlur("mobile")}
@@ -119,7 +119,7 @@ const Contact = () => {
                       id=""
                       cols="30"
                       rows="4"
-                      placeholder="Comments"
+                      placeholder="Bình luận"
                       onChange={formik.handleChange("comment")}
                       onBlur={formik.handleBlur("comment")}
                       value={formik.values.comment}
@@ -129,12 +129,12 @@ const Contact = () => {
                     </div>
                   </div>
                   <div>
-                    <button className="button">Submit</button>
+                    <button className="button">Gửi</button>
                   </div>
                 </form>
               </div>
               <div>
-                <h3 className="contact-title mb-4">Get in touch with us</h3>
+                <h3 className="contact-title mb-4">Liên hệ với chúng tôi</h3>
                 <div>
                   <ul className="ps-0">
                     <li className="mb-3 d-flex gap-15 align-items-center">
@@ -161,7 +161,7 @@ const Contact = () => {
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <BiInfoCircle className="fs-5" />
-                      <p className="mb-0">Monday-Friday 10:AM - 8:PM</p>
+                      <p className="mb-0">Thứ 2 - Thứ 6 10:AM - 8:PM</p>
                     </li>
                   </ul>
                 </div>
