@@ -7,6 +7,7 @@ const {
   deletedProduct,
   addToWishList,
   rating,
+  getProductByCategory,
 } = require("../controllers/productCtrl");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddlewares");
 
@@ -20,6 +21,7 @@ router.put("/rating", authMiddleware, rating);
 
 router.put("/:id", authMiddleware, isAdmin, updatedProduct);
 router.delete("/:id", authMiddleware, isAdmin, deletedProduct);
+router.get("/category/:category", getProductByCategory);
 
 router.get("/", getAllProduct);
 

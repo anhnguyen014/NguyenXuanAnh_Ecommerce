@@ -79,6 +79,18 @@ const getProduct = asyncHandle(async (req, res) => {
   }
 });
 
+//Get a product by category
+
+const getProductByCategory = asyncHandle(async (req, res) => {
+  const category = req.params.category;
+  try {
+    const findProduct = await Product.find({ category: category });
+    res.json(findProduct);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 // Update Product
 
 const updatedProduct = asyncHandle(async (req, res) => {
@@ -217,6 +229,7 @@ module.exports = {
   createProduct,
   getProduct,
   getAllProduct,
+  getProductByCategory,
   updatedProduct,
   deletedProduct,
   addToWishList,
