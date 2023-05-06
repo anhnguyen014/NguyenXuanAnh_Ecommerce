@@ -178,8 +178,11 @@ const Home = () => {
                 categoryState?.map((category, index) => {
                   return (
                     <div
+                      onClick={() =>
+                        navigate(`product/category/${category?.title}`)
+                      }
                       key={index}
-                      className="d-flex  align-items-center py-2 "
+                      className="d-flex align-items-center py-2 mouse"
                     >
                       <div>
                         <h6>{category?.title}</h6>

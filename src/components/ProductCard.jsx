@@ -45,7 +45,7 @@ const ProductCard = (props) => {
               <div className="product-image">
                 <img
                   src={item?.images[0]?.url ? item?.images[0]?.url : watch}
-                  className="img-fluid"
+                  className="image-product"
                   alt="product_image"
                 />
               </div>

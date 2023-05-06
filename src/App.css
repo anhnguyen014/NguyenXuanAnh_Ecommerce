@@ -76,6 +76,10 @@ a{
   color: var(--color-131921);
 }
 
+.mouse{
+  cursor: pointer;
+}
+
 
 .fs-12{
   font-size: 12px;
@@ -1043,6 +1047,11 @@ color: var(--color-1c1c1b);
   opacity: 1;
 }
 
+
+.image-product{
+  width: 202px;
+  height: 202px;
+}
 
 
 

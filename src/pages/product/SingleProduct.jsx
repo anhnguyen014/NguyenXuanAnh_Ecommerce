@@ -120,7 +120,11 @@ const SingleProduct = () => {
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-6">
-            <Carousel showArrows={true} showStatus={false}>
+            <Carousel
+              showArrows={true}
+              showStatus={false}
+              showIndicators={false}
+            >
               {productState?.images.map((item, index) => {
                 return (
                   <div key={index}>

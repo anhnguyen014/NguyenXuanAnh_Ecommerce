@@ -38,15 +38,17 @@ const ProductCate = () => {
       <BreadCrumb title={decodeURIComponent(getCategory)} />
       <Container class1="featured-wrapper py-5 home-wrapper-2">
         <div className="row">
-          <div className="col-12">
-            <h3 className="section-heading text-uppercase">
+          <div className="col-12 d-flex justify-content-between">
+            <h3 className="section-heading text-uppercase mb-0">
               {decodeURIComponent(getCategory)}
             </h3>
+            <h6 className="mb-0 ">{productState?.length} Sản phẩm</h6>
           </div>
+          <hr />
           {productState &&
             productState?.map((item, index) => {
               return (
-                <div key={index} className="col-3">
+                <div key={index} className="col-3 mt-4">
                   <div className="product-card position-relative">
                     <div className="wishlist-icon position-absolute">
                       <button
