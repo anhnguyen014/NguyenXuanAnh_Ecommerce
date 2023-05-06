@@ -23,7 +23,7 @@ const ProductCard = (props) => {
   return (
     <>
       {data?.map((item, index) => {
-        console.log(item?.images[1]?.url);
+        // console.log(item?.images[1]?.url);
         return (
           <div
             key={index}
@@ -51,7 +51,11 @@ const ProductCard = (props) => {
               </div>
               <div className="product-details">
                 <h6 className="brand">{item?.brand}</h6>
-                <h5 className="product-title">{item?.title}</h5>
+                <h5 className="product-title">
+                  {grid === 12 || grid === 6
+                    ? item?.title
+                    : item?.title?.substr(0, 30) + "..."}
+                </h5>
                 <ReactStars
                   count={5}
                   size={24}
@@ -65,7 +69,12 @@ const ProductCard = (props) => {
                   }`}
                   dangerouslySetInnerHTML={{ __html: item?.description }}
                 ></p>
-                <p className="price">$ {item.price}</p>
+                <p className="price text-danger">
+                  {item?.price?.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
               </div>
               <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">

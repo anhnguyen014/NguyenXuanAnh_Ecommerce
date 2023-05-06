@@ -27,8 +27,15 @@ const WishList = () => {
       <BreadCrumb title="WishList" />
       <Container class1="wishlist-wrapper home-wrapper-2 py-5">
         <div className="row">
-          {wishListState && wishListState.length === 0 && (
-            <div className="text-center fs-3">No data</div>
+          {wishListState && wishListState?.length === 0 && (
+            <div className="text-center fs-3">
+              <img
+                src="../../images/empty-cart.jpg"
+                width={500}
+                height={500}
+                alt=""
+              />
+            </div>
           )}
           {wishListState &&
             wishListState.map((item, index) => {
@@ -56,7 +63,12 @@ const WishList = () => {
                   </div>
                   <div className="py-3">
                     <h5 className="title-1">{item?.title}</h5>
-                    <h6 className="price-1"> {item?.price} VND</h6>
+                    <h6 className="price-1 text-danger">
+                      {item?.price?.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </h6>
                   </div>
                 </div>
               );

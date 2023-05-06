@@ -50,10 +50,20 @@ const Order = () => {
                       <p>{item?._id}</p>
                     </div>
                     <div className="col-3">
-                      <p>{item?.totalPrice}</p>
+                      <p>
+                        {item?.totalPrice?.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </p>
                     </div>
                     <div className="col-3">
-                      <p>{item?.totalPriceAfterDiscount}</p>
+                      <p>
+                        {item?.totalPriceAfterDiscount?.toLocaleString(
+                          "vi-VN",
+                          { style: "currency", currency: "VND" }
+                        )}
+                      </p>
                     </div>
                     <div className="col-3">
                       <p>{item?.orderStatus}</p>
@@ -88,7 +98,12 @@ const Order = () => {
                                   <p className="text-white">{i?.quantity}</p>
                                 </div>
                                 <div className="col-3">
-                                  <p className="text-white">{i?.price}</p>
+                                  <p className="text-white">
+                                    {i?.price?.toLocaleString("vi-VN", {
+                                      style: "currency",
+                                      currency: "VND",
+                                    })}
+                                  </p>
                                 </div>
                                 <div className="col-3">
                                   <div className="d-flex gap-3">

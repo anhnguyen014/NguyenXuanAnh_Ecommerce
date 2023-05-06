@@ -57,6 +57,7 @@ const Home = () => {
   const blogState = useSelector((state) => state?.blog?.blogs);
   const brandState = useSelector((state) => state?.brand?.brands);
   const categoryState = useSelector((state) => state?.category?.categories);
+
   return (
     <>
       <Meta title={"E-commerce"} />
@@ -74,7 +75,9 @@ const Home = () => {
               <h4>SUPERCHARGED FOR PROS.</h4>
               <h5>iPhone 14 Pro Max.</h5>
               <p>From $1500.00 or $41.62/mo.</p>
-              <Link className="button">BUY NOW</Link>
+              <Link to="/product" className="button">
+                Mua ngay
+              </Link>
             </div>
           </div>
           <div className="col-6 ">
@@ -263,13 +266,13 @@ const Home = () => {
       <Container class1="featured-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Featured Collection</h3>
+            <h3 className="section-heading text-uppercase">Sản Phẩm Nổi Bật</h3>
           </div>
           {productState &&
             productState?.map((item, index) => {
               if (item?.tags === "featured") {
                 return (
-                  <div key={index} className={"col-3"}>
+                  <div key={index} className="col-3">
                     <div className="product-card position-relative">
                       <div className="wishlist-icon position-absolute">
                         <button
@@ -301,7 +304,12 @@ const Home = () => {
                           activeColor="#ffd700"
                         />
 
-                        <p className="price">$ {item?.price}</p>
+                        <p className="price text-danger">
+                          {item?.price?.toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </p>
                       </div>
                       <div className="action-bar position-absolute">
                         <div className="d-flex flex-column gap-15">
@@ -390,7 +398,7 @@ const Home = () => {
       <Container class1="special-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Special Products</h3>
+            <h3 className="section-heading">Sản Phẩm Đặc Biệt</h3>
           </div>
         </div>
         <div className="row">
@@ -403,7 +411,10 @@ const Home = () => {
                     id={item?._id}
                     title={item?.title?.substr(0, 35) + "..."}
                     brand={item?.brand}
-                    price={item?.price}
+                    price={item?.price?.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                     totalRating={item?.totalRating}
                     sold={item?.sold}
                     quantity={item?.quantity}
@@ -416,7 +427,9 @@ const Home = () => {
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Our Popular Products</h3>
+            <h3 className="section-heading text-uppercase">
+              Sản Phẩm Phổ Biến
+            </h3>
           </div>
           {productState &&
             productState?.map((item, index) => {
@@ -454,7 +467,12 @@ const Home = () => {
                           activeColor="#ffd700"
                         />
 
-                        <p className="price">$ {item.price}</p>
+                        <p className="price text-danger">
+                          {item?.price?.toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </p>
                       </div>
                       <div className="action-bar position-absolute">
                         <div className="d-flex flex-column gap-15">
@@ -523,7 +541,9 @@ const Home = () => {
       <Container class1="blog-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Our Latest Blogs</h3>
+            <h3 className="section-heading text-uppercase">
+              Bài Viết Mới Nhất
+            </h3>
           </div>
         </div>
         <div className="row">

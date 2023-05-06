@@ -194,6 +194,8 @@ const Checkout = () => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
+
+  let priceShipping = 50000;
   return (
     <>
       <Meta title={"Checkout"} />
@@ -426,7 +428,10 @@ const Checkout = () => {
                       </div>
                       <div className="flex-grow-1">
                         <h5 className="total-price">
-                          {item?.price * item?.quantity} VND
+                          {(item?.price * item?.quantity)?.toLocaleString(
+                            "vi-VN",
+                            { style: "currency", currency: "VND" }
+                          )}
                         </h5>
                       </div>
                     </div>
@@ -437,18 +442,40 @@ const Checkout = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <p className="total">Subtotal</p>
                 <p className="total-price">
-                  {totalAmount ? totalAmount : 0} VND
+                  {totalAmount?.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })
+                    ? totalAmount?.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : 0}
                 </p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="mb-0 total">Shipping</p>
-                <p className="mb-0 total-price"> 50000 VND</p>
+                <p className="mb-0 total-price">
+                  {" "}
+                  {priceShipping?.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
               </div>
             </div>
             <div className="d-flex justify-content-between align-items-center border-bottom py-4">
               <h4 className="total">Total</h4>
               <h5 className="total-price">
-                {totalAmount ? totalAmount + 50000 : 0} VND
+                {totalAmount?.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })
+                  ? (totalAmount + priceShipping)?.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })
+                  : 0}
               </h5>
             </div>
           </div>

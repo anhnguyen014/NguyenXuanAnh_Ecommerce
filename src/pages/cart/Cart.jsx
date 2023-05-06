@@ -81,6 +81,11 @@ const Cart = () => {
               <h4 className="cart-col-3">Quantity</h4>
               <h4 className="cart-col-4">Total</h4>
             </div>
+            {userCartState && userCartState?.length === 0 && (
+              <div>
+                <h3 className="text-center py-5">Giỏ hàng của bạn trống</h3>
+              </div>
+            )}
             {userCartState &&
               userCartState?.map((item, index) => {
                 return (
@@ -115,7 +120,12 @@ const Cart = () => {
                       </div>
                     </div>
                     <div className="cart-col-2">
-                      <h5 className="price">{item?.productId?.price} VND</h5>
+                      <h5 className="price text-danger">
+                        {item?.productId?.price?.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </h5>
                     </div>
                     <div className="cart-col-3 d-flex align-items-center gap-15">
                       <div>
@@ -144,8 +154,11 @@ const Cart = () => {
                       </div>
                     </div>
                     <div className="cart-col-4">
-                      <h5 className="price">
-                        {item?.price * item?.quantity} VND
+                      <h5 className="price text-danger">
+                        {(item?.price * item?.quantity).toLocaleString(
+                          "vi-VN",
+                          { style: "currency", currency: "VND" }
+                        )}
                       </h5>
                     </div>
                   </div>
@@ -159,7 +172,13 @@ const Cart = () => {
               </Link>
               {(totalAmount !== null || totalAmount !== 0) && (
                 <div className="d-flex flex-column align-items-end">
-                  <h4>SubTotal: {totalAmount} VND</h4>
+                  <h4>
+                    SubTotal:
+                    {totalAmount?.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </h4>
                   <p>Taxes and shipping calculated at checkout</p>
                   <Link to="/checkout" className="button">
                     Checkout

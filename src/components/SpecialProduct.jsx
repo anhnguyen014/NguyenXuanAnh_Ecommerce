@@ -22,8 +22,8 @@ const SpecialProduct = (props) => {
               edit={false}
               activeColor="#ffd700"
             />
-            <p className="price">
-              <span className="red-p">$ {price}</span>&nbsp;
+            <p className="price text-danger">
+              <span className="red-p"> {price}</span>&nbsp;
               {/* <strike>$1600</strike> */}
             </p>
             <div className="discount-till d-flex align-items-center gap-10">

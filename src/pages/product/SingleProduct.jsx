@@ -136,7 +136,12 @@ const SingleProduct = () => {
                 <h3 className="title">{productState?.title}</h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price">{productState?.price} VND</p>
+                <p className="price text-danger">
+                  {productState?.price?.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
                 <div className="d-flex align-items-center gap-10">
                   <ReactStars
                     count={5}
@@ -174,23 +179,7 @@ const SingleProduct = () => {
                   <h3 className="product-heading ">Availablity: </h3>
                   <p className="product-data ">In Stock</p>
                 </div>
-                <div className="d-flex gap-10 flex-column mt-2 mb-3">
-                  <h3 className="product-heading ">Size: </h3>
-                  <div className="d-flex flex-wrap gap-15">
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      S
-                    </span>
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      M
-                    </span>
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      XL
-                    </span>
-                    <span className="badge border border-1 bg-white text-dark border-secondary">
-                      XXL
-                    </span>
-                  </div>
-                </div>
+
                 {alreadyAdded === false && (
                   <>
                     <div className="d-flex gap-10 flex-column mt-2 mb-3">
@@ -240,7 +229,6 @@ const SingleProduct = () => {
                         {alreadyAdded ? "Go to Cart" : "Add to Cart"}
                       </button>
                     </div>
-                    <button className="button signup">Mua ngay</button>
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">

@@ -23,6 +23,17 @@ export const getAProduct = createAsyncThunk(
   }
 );
 
+export const getProductByCate = createAsyncThunk(
+  "product/get-product-by-category",
+  async (data, thunkAPI) => {
+    try {
+      return await productService.getProductByCategory(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const addToWishList = createAsyncThunk(
   "product/add-to-wishlist",
   async (prodId, thunkAPI) => {
@@ -127,6 +138,22 @@ export const productSlice = createSlice({
         if (state.isError) {
           toast.error("Something went wrong");
         }
+      })
+      .addCase(getProductByCate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductByCate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.productByCategory = action.payload;
+        state.message = "Product Fetched Successfully";
+      })
+      .addCase(getProductByCate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
       });
   },
 });

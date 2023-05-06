@@ -27,6 +27,7 @@ import { PrivateRouters } from "./routing/PrivateRouters";
 import { OpenRouters } from "./routing/OpenRouters";
 import Order from "./pages/order/Order";
 import Profile from "./pages/auth/Profile";
+import ProductCate from "./pages/product/ProductCate";
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="product" element={<OurStore />} />
             <Route path="product/:id" element={<SingleProduct />} />
+            <Route
+              path="product/category/:category"
+              element={<ProductCate />}
+            />
+
             <Route path="blog" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
             <Route

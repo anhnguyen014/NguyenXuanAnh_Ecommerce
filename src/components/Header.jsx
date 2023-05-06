@@ -10,7 +10,11 @@ import menu from "../images/menu.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead"; // ES2015
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { getAProduct, getAllProduct } from "../features/products/productSlice";
+import {
+  getAProduct,
+  getAllProduct,
+  getProductByCate,
+} from "../features/products/productSlice";
 import { getUserCart } from "../features/user/userSlice";
 import { getAllCategories } from "../features/categories/categorySlice";
 
@@ -78,6 +82,8 @@ const Header = () => {
   const getProducts = () => {
     dispatch(getAllProduct({ category }));
   };
+
+  console.log([...new Set(categories)]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -154,8 +160,8 @@ const Header = () => {
                   >
                     <img src={wishlist} alt="wishlist" />
                     <p className="mb-0">
-                      Favourite <br />
-                      wishlist
+                      Danh mục <br />
+                      yêu thích
                     </p>
                   </Link>
                 </div>
@@ -167,12 +173,12 @@ const Header = () => {
                     <img src={user} alt="" />
                     {authState?.user === null ? (
                       <p className="mb-0">
-                        Log in <br />
-                        My Account
+                        Đăng nhập <br />
+                        Tài khoản
                       </p>
                     ) : (
                       <p className="mb-0">
-                        Welcome <br />
+                        Xin chào <br />
                         {authState?.user?.firstname +
                           " " +
                           authState?.user?.lastname}
@@ -190,7 +196,17 @@ const Header = () => {
                       <span className="badge bg-white text-dark">
                         {cartState?.length ? cartState?.length : 0}
                       </span>
-                      <p className="mb-0">{total ? total : 0} VND</p>
+                      <p className="mb-0">
+                        {total?.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })
+                          ? total?.toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })
+                          : 0}{" "}
+                      </p>
                     </div>
                   </Link>
                 </div>
@@ -216,7 +232,7 @@ const Header = () => {
                       >
                         <img src={menu} alt="menu" />
                         <span className="me-5 d-inline-block">
-                          Shop Category
+                          Danh mục sản phẩm
                         </span>
                       </button>
                       <ul
@@ -228,9 +244,11 @@ const Header = () => {
                             return (
                               <li key={index}>
                                 <Link
-                                  onClick={() => setCategory(item)}
                                   className="dropdown-item text-white"
-                                  to="/product"
+                                  to={"/product/category/" + item}
+                                  onClick={() => {
+                                    dispatch(getProductByCate(item));
+                                  }}
                                 >
                                   {item}
                                 </Link>
@@ -255,17 +273,17 @@ const Header = () => {
                 </div>
                 <div className="menu-links ">
                   <div className="d-flex align-items-center gap-30">
-                    <NavLink to="/">Home</NavLink>
-                    <NavLink to="/product">Our Store</NavLink>
-                    <NavLink to="/my-order">My Order</NavLink>
-                    <NavLink to="/blog">Blogs</NavLink>
-                    <NavLink to="/contact">Contact</NavLink>
+                    <NavLink to="/">Trang chủ</NavLink>
+                    <NavLink to="/product">Sản phẩm</NavLink>
+                    <NavLink to="/my-order">Đơn hàng</NavLink>
+                    <NavLink to="/blog">Tin tức</NavLink>
+                    <NavLink to="/contact">Liên hệ</NavLink>
                     <button
                       onClick={handleLogout}
                       className="border border-0 bg-transparent text-white text-uppercase"
                       type="button"
                     >
-                      Logout
+                      Đăng xuất
                     </button>
                   </div>
                 </div>
