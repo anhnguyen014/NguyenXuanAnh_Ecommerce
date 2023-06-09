@@ -13,41 +13,36 @@ import CustomModal from "../../components/CustomModal";
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Title",
+    title: "Tên sản phẩm",
     dataIndex: "title",
     sorter: (a, b) => a.title.length - b.title.length,
   },
   {
-    title: "Image",
+    title: "Hình ảnh",
     dataIndex: "image",
   },
   {
-    title: "Brand",
+    title: "Hãng",
     dataIndex: "brand",
     sorter: (a, b) => a.brand.length - b.brand.length,
   },
   {
-    title: "Category",
+    title: "Danh mục",
     dataIndex: "category",
     sorter: (a, b) => a.category.length - b.category.length,
   },
-  // {
-  //   title: "Color",
-  //   dataIndex: "color",
-  // },
-
   {
-    title: "Price",
+    title: "Sản phẩm",
     dataIndex: "price",
     sorter: (a, b) => a.price - b.price,
   },
 
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -90,7 +85,14 @@ const Productlist = () => {
       category: productState[i].category,
       // color: productState[i]._id,
 
-      price: `${productState[i].price}`,
+      price: (
+        <p className="price text-dark mb-0">
+          {productState[i]?.price?.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })}
+        </p>
+      ),
       action: (
         <>
           <Link
@@ -118,7 +120,7 @@ const Productlist = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Product List</h3>
+      <h3 className="mb-4 title">Danh sách sản phẩm</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -128,7 +130,7 @@ const Productlist = () => {
         performAction={() => {
           deleteProduct(productId);
         }}
-        title="Are you sure you want to delete this product?"
+        title="Bạn muốn xoá sản phẩm này ra khỏi danh sách?"
       />
     </div>
   );

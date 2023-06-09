@@ -11,27 +11,27 @@ import { getOrder } from "../../features/auth/authSlice";
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Product Name",
+    title: "Tên sản phẩm",
     dataIndex: "name",
   },
   {
-    title: "Brand",
+    title: "Hãng",
     dataIndex: "brand",
   },
   {
-    title: "Count",
+    title: "Số lượng",
     dataIndex: "count",
   },
   {
-    title: "Color",
+    title: "Màu",
     dataIndex: "color",
   },
   {
-    title: "Amount",
+    title: "Tổng tiền",
     dataIndex: "price",
   },
 ];
@@ -53,7 +53,14 @@ const ViewOrder = () => {
       name: orderState?.orderItems[i]?.product?.title,
       brand: orderState?.orderItems[i]?.product?.brand,
       count: orderState?.orderItems[i]?.quantity,
-      price: orderState?.orderItems[i]?.price,
+      price: (
+        <p className="price text-dark mb-0">
+          {orderState?.orderItems[i]?.price.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })}
+        </p>
+      ),
       color: (
         <div>
           <ul className="colors ps-0">
@@ -70,7 +77,7 @@ const ViewOrder = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">View Order</h3>
+      <h3 className="mb-4 title">Thông tin đơn hàng</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

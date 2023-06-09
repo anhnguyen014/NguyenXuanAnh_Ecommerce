@@ -14,25 +14,25 @@ import { Link } from "react-router-dom";
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Title",
+    title: "Tên Blog",
     dataIndex: "title",
     sorter: (a, b) => a.title.length - b.title.length,
   },
   {
-    title: "Images",
+    title: "Hình ảnh",
     dataIndex: "images",
   },
 
   {
-    title: "Category",
+    title: "Danh mục",
     dataIndex: "category",
   },
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -95,7 +95,7 @@ const Bloglist = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Blog List</h3>
+      <h3 className="mb-4 title">Danh sách Blogs</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -105,7 +105,7 @@ const Bloglist = () => {
         performAction={() => {
           deleteBlog(blogId);
         }}
-        title="Are you sure you want to delete this color?"
+        title="Bạn có muốn xoá Blog ra khỏi danh sách?"
       />
     </div>
   );

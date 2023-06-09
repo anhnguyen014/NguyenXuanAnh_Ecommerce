@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../features/customers/customerSlice";
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên khách hàng",
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
@@ -19,7 +19,7 @@ const columns = [
   },
 
   {
-    title: "Mobile",
+    title: "Số điện thoại",
     dataIndex: "mobile",
   },
 ];
@@ -44,7 +44,7 @@ const Customer = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">Customers</h3>
+      <h3 className="mb-4 title">Khách hàng</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

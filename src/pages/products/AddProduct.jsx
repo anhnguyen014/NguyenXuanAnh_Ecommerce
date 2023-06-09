@@ -89,7 +89,18 @@ const AddProduct = () => {
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
-      label: i.title,
+      label: (
+        <div className="d-flex align-items-center gap-3">
+          <p>{i?.title}</p>
+          <ul className="colors ps-0">
+            <li
+              style={{
+                backgroundColor: i?.title,
+              }}
+            ></li>
+          </ul>
+        </div>
+      ),
       value: i._id,
     });
   });
@@ -156,7 +167,7 @@ const AddProduct = () => {
   return (
     <div>
       <h3 className=" title">
-        {getProductId !== undefined ? "Edit" : "Add"} Product
+        {getProductId !== undefined ? "Cập nhật" : "Thêm"} sản phẩm
       </h3>
       <div>
         <form
@@ -165,7 +176,7 @@ const AddProduct = () => {
         >
           <CustomInput
             type="text"
-            placeholder="Enter Product Title"
+            placeholder="Nhập tên sản phẩm"
             name="title"
             onCh={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
@@ -187,7 +198,7 @@ const AddProduct = () => {
           </div>
           <CustomInput
             type="number"
-            placeholder="Enter Product Price"
+            placeholder="Nhập giá"
             name="price"
             onCh={formik.handleChange("price")}
             onBlr={formik.handleBlur("price")}
@@ -204,7 +215,7 @@ const AddProduct = () => {
             className="form-control py-3 my-3"
             id=""
           >
-            <option value="">Select Brand</option>
+            <option value="">Chọn hãng </option>
             {brandState.map((i, j) => {
               return (
                 <option key={j} value={i.title}>
@@ -224,7 +235,7 @@ const AddProduct = () => {
             className="form-control py-3 mb-3"
             id=""
           >
-            <option value="">Select Category</option>
+            <option value="">Chọn danh mục</option>
             {pCateState.map((i, j) => {
               return (
                 <option key={j} value={i.title}>
@@ -245,11 +256,11 @@ const AddProduct = () => {
             id=""
           >
             <option value="" disabled>
-              Select Tags
+              Chọn tags
             </option>
-            <option value="featured">Featured</option>
-            <option value="popular">Popular</option>
-            <option value="special">Special</option>
+            <option value="featured">Đặc sắc</option>
+            <option value="popular">Phổ biến</option>
+            <option value="special">Đặc biệt</option>
           </select>
           <div className="error ">
             {formik.touched.tags && formik.errors.tags}
@@ -258,7 +269,7 @@ const AddProduct = () => {
             mode="multiple"
             allowClear
             className="w-100"
-            placeholder="Select color"
+            placeholder="Chọn màu"
             defaultValue={color}
             onChange={(i) => handleColor(i)}
             options={coloropt}
@@ -268,7 +279,7 @@ const AddProduct = () => {
           </div>
           <CustomInput
             type="number"
-            placeholder="Enter Product Quantity"
+            placeholder="Nhập số lượng"
             name="price"
             onCh={formik.handleChange("quantity")}
             onBlr={formik.handleBlur("quantity")}
@@ -285,9 +296,7 @@ const AddProduct = () => {
                 <section>
                   <div {...getRootProps()}>
                     <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
+                    <p>Kéo 'và' thả một số tệp vào đây hoặc nhấp để chọn tệp</p>
                   </div>
                 </section>
               )}
@@ -312,7 +321,7 @@ const AddProduct = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {getProductId !== undefined ? "Edit" : "Add"} Product
+            {getProductId !== undefined ? "Cập nhật" : "Thêm"} Sản phẩm
           </button>
         </form>
       </div>

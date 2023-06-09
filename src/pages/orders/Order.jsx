@@ -10,28 +10,28 @@ import { Link } from "react-router-dom";
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên",
     dataIndex: "name",
   },
   {
-    title: "Product",
+    title: "Sản phẩm",
     dataIndex: "product",
   },
   {
-    title: "Amount",
+    title: "Tổng tiền",
     dataIndex: "amount",
   },
   {
-    title: "Date",
+    title: "Ngày",
     dataIndex: "date",
   },
 
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -50,9 +50,17 @@ const Order = () => {
       name:
         orderState[i]?.user?.firstname + " " + orderState[i]?.user?.lastname,
       product: (
-        <Link to={`/admin/order/${orderState[i]?._id}`}>View Order</Link>
+        <Link to={`/admin/order/${orderState[i]?._id}`}>Hiển thị đơn hàng</Link>
       ),
-      amount: orderState[i]?.totalPrice,
+      amount: (
+        <p className="price text-dark mb-0">
+          {orderState[i]?.totalPrice.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })}
+        </p>
+      ),
+
       date: new Date(orderState[i]?.createdAt).toLocaleString(),
       action: (
         <>
@@ -66,12 +74,12 @@ const Order = () => {
             id=""
           >
             <option value="Ordered" disabled selected>
-              Ordered
+              Đặt hàng
             </option>
 
-            <option value="Processed">Processed</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Delivered">Delivered</option>
+            <option value="Processed">Xử lý</option>
+            <option value="Shipped">Vận chuyển</option>
+            <option value="Delivered">Đã giao hàng</option>
           </select>
         </>
       ),
@@ -84,7 +92,7 @@ const Order = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Orders List</h3>
+      <h3 className="mb-4 title">Danh sách đơn hàng</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

@@ -46,12 +46,12 @@ const AddCoupon = () => {
   });
   return (
     <div>
-      <h3 className="mb-4 title">Add Coupon</h3>
+      <h3 className="mb-4 title">Thêm khuyến mãi </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
-            placeholder="Enter Coupon Name"
+            placeholder="Nhập tên khuyến mãi"
             name="name"
             onCh={formik.handleChange("name")}
             onBlr={formik.handleBlur("name")}
@@ -63,7 +63,7 @@ const AddCoupon = () => {
           </div>
           <CustomInput
             type="date"
-            placeholder="Enter Expiry Date"
+            placeholder="Nhập ngày hết hạn"
             name="expiry"
             onCh={formik.handleChange("expiry")}
             onBlr={formik.handleBlur("expiry")}
@@ -75,7 +75,7 @@ const AddCoupon = () => {
           </div>
           <CustomInput
             type="number"
-            placeholder="Enter Discount"
+            placeholder="Nhập giá khuyến mãi"
             name="discount"
             onCh={formik.handleChange("discount")}
             onBlr={formik.handleBlur("discount")}
@@ -89,7 +89,7 @@ const AddCoupon = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            Add Coupon
+            Thêm khuyến mãi
           </button>
         </form>
       </div>

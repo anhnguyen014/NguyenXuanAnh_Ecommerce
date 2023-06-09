@@ -67,64 +67,64 @@ const MainLayout = () => {
             {
               key: "",
               icon: <AiOutlineDashboard className="fs-4" />,
-              label: "Dashboard",
+              label: "Bảng điều khiển",
             },
             {
               key: "customers",
               icon: <AiOutlineUser className="fs-4" />,
-              label: "Customers",
+              label: "Khách hàng",
             },
             {
               key: "catalog",
               icon: <AiOutlineShoppingCart className="fs-4" />,
-              label: "Catalog",
+              label: "Mục lục",
               children: [
                 {
                   key: "add-product",
                   icon: <AiOutlineShoppingCart className="fs-4" />,
-                  label: "Add-Product",
+                  label: "Thêm sản phẩm",
                 },
                 {
                   key: "product-list ",
                   icon: <AiOutlineShoppingCart className="fs-4" />,
-                  label: "Product List",
+                  label: "Danh sách sản phẩm",
                 },
                 {
                   key: "add-brand",
                   icon: <SiBrandfolder className="fs-4" />,
-                  label: "Add Brand",
+                  label: "Thêm thương hiệu",
                 },
                 {
                   key: "brand-list",
                   icon: <SiBrandfolder className="fs-4" />,
-                  label: "Brand List",
+                  label: "Danh sách thương hiệu",
                 },
                 {
                   key: "add-category",
                   icon: <BiCategoryAlt className="fs-4" />,
-                  label: "Add Category",
+                  label: "Thêm danh mục",
                 },
                 {
                   key: "category-list",
                   icon: <BiCategoryAlt className="fs-4" />,
-                  label: "Category List",
+                  label: "Danh sách danh mục",
                 },
                 {
                   key: "add-color",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Add-Color",
+                  label: "Thêm màu",
                 },
                 {
                   key: "color-list",
                   icon: <AiOutlineBgColors className="fs-4" />,
-                  label: "Color List",
+                  label: "Danh sách màu",
                 },
               ],
             },
             {
               key: "orders",
               icon: <FaClipboardList className="fs-4" />,
-              label: "Orders",
+              label: "Đơn hàng",
             },
             {
               key: "blogs",
@@ -134,22 +134,22 @@ const MainLayout = () => {
                 {
                   key: "add-blog",
                   icon: <ImBlog className="fs-4" />,
-                  label: "Add Blogs",
+                  label: "Thêm Blog",
                 },
                 {
                   key: "blog-list",
                   icon: <FaBloggerB className="fs-4" />,
-                  label: "Blog List",
+                  label: "Danh sách Blog",
                 },
                 {
                   key: "blog-category",
                   icon: <ImBlog className="fs-4" />,
-                  label: "Add Blog Category",
+                  label: "Thêm danh mục Blog",
                 },
                 {
                   key: "blog-category-list",
                   icon: <FaBloggerB className="fs-4" />,
-                  label: "Blog Category List",
+                  label: "Danh sách danh mục Blog",
                 },
               ],
             },
@@ -161,24 +161,24 @@ const MainLayout = () => {
                 {
                   key: "add-coupon",
                   icon: <ImBlog className="fs-4" />,
-                  label: "Add Coupon",
+                  label: "Thêm khuyến mãi",
                 },
                 {
                   key: "coupon-list",
                   icon: <RiCouponLine className="fs-4" />,
-                  label: "Coupon List",
+                  label: "Danh sách khuyến mãi",
                 },
               ],
             },
             {
               key: "enquiries",
               icon: <AiOutlineContacts className="fs-4" />,
-              label: "Enquiries",
+              label: "Liên hệ",
             },
             {
               key: "logout",
               icon: <AiOutlineLogout className="fs-4" />,
-              label: "Logout",
+              label: "Đăng xuất",
             },
           ]}
         />
@@ -240,7 +240,7 @@ const MainLayout = () => {
                     style={{ height: "auto", lineHeight: "20px" }}
                     to="/"
                   >
-                    View Profile
+                    Xem thông tin
                   </Link>
                 </li>
                 <li>
@@ -249,7 +249,7 @@ const MainLayout = () => {
                     style={{ height: "auto", lineHeight: "20px" }}
                     // onClick={handleLogout}
                   >
-                    Signout
+                    Đăng Xuất
                   </button>
                 </li>
               </div>

@@ -8,27 +8,27 @@ import { AiFillDelete } from "react-icons/ai";
 import { getCoupons } from "../../features/coupon/couponSlice";
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên",
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: "Expiry",
+    title: "Ngày hết hạn",
     dataIndex: "expiry",
     sorter: (a, b) => a.expiry.length - b.expiry.length,
   },
   {
-    title: "Discount",
+    title: "Khuyến mãi",
     dataIndex: "discount",
     sorter: (a, b) => a.discount - b.discount,
   },
 
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -61,7 +61,7 @@ const CouponList = () => {
   }
   return (
     <div>
-      <h3 className="mb-4 title">Coupon List</h3>
+      <h3 className="mb-4 title">Danh sách khuyến mãi</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

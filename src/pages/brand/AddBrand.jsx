@@ -16,7 +16,7 @@ import {
   updateABrand,
 } from "../../features/brand/brandSlice";
 
-const AddBlog = () => {
+const AddBrand = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -99,7 +99,7 @@ const AddBlog = () => {
   return (
     <div>
       <h3 className="mb-4 title">
-        {getBrandId !== undefined ? "Edit" : "Add"} Brand
+        {getBrandId !== undefined ? "Cập nhật" : "Thêm"} thương hiệu
       </h3>
 
       <div className="">
@@ -107,7 +107,7 @@ const AddBlog = () => {
           <div className="mt-4">
             <CustomInput
               type="text"
-              placeholder="Enter Blog Title"
+              placeholder="Nhập tên thương hiệu"
               name="title"
               onCh={formik.handleChange("title")}
               onBlr={formik.handleBlur("title")}
@@ -126,9 +126,7 @@ const AddBlog = () => {
                 <section>
                   <div {...getRootProps()}>
                     <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
+                    <p>Kéo 'và' thả một số tệp vào đây hoặc nhấp để chọn tệp</p>
                   </div>
                 </section>
               )}
@@ -153,7 +151,7 @@ const AddBlog = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {getBrandId !== undefined ? "Edit" : "Add"} Brand
+            {getBrandId !== undefined ? "Cập nhật" : "Thêm"} thương hiệu
           </button>
         </form>
       </div>
@@ -161,4 +159,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default AddBrand;

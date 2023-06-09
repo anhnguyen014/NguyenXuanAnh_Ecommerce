@@ -95,13 +95,13 @@ const AddCategory = () => {
   return (
     <div>
       <h3 className="mb-4 title">
-        {getPCategoryId !== undefined ? "Edit" : "Add"} Category
+        {getPCategoryId !== undefined ? "Cập nhật" : "Thêm"} danh mục
       </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
-            placeholder="Enter Category"
+            placeholder="Nhập danh mục"
             name="title"
             onCh={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
@@ -118,9 +118,7 @@ const AddCategory = () => {
                 <section>
                   <div {...getRootProps()}>
                     <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
+                    <p>Kéo 'và' thả một số tệp vào đây hoặc nhấp để chọn tệp</p>
                   </div>
                 </section>
               )}
@@ -145,7 +143,7 @@ const AddCategory = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {getPCategoryId !== undefined ? "Edit" : "Add"} Category
+            {getPCategoryId !== undefined ? "Cập nhật" : "Thêm"} danh mục
           </button>
         </form>
       </div>

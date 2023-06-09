@@ -14,11 +14,11 @@ import { Link } from "react-router-dom";
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên",
     dataIndex: "name",
   },
   {
@@ -26,23 +26,23 @@ const columns = [
     dataIndex: "email",
   },
   {
-    title: "Mobile",
+    title: "Số điện thoại",
     dataIndex: "mobile",
   },
   {
-    title: "Comment",
+    title: "Bình luận",
     dataIndex: "comment",
   },
   {
-    title: "Status",
+    title: "Trạng thái",
     dataIndex: "status",
   },
   {
-    title: "Date",
+    title: "Ngày",
     dataIndex: "date",
   },
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -86,10 +86,10 @@ const Enquiries = () => {
               setEnquiryStatus(e.target.value, enquiryState[i]._id)
             }
           >
-            <option value="Submitted">Submitted</option>
-            <option value="Contacted">Contacted</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Resolved">Resolved</option>
+            <option value="Submitted">Đã gửi</option>
+            <option value="Contacted">Đã liên hệ</option>
+            <option value="In Progress">Trong tiến trình</option>
+            <option value="Resolved">Đã giải quyết</option>
           </select>
         </>
       ),
@@ -128,7 +128,7 @@ const Enquiries = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Enquiries</h3>
+      <h3 className="mb-4 title">Liên hệ</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -138,7 +138,7 @@ const Enquiries = () => {
         performAction={() => {
           deleteEnquiry(enqId);
         }}
-        title="Are you sure you want to delete this enquiry?"
+        title="Bạn muốn xoá liên hệ này ra khỏi danh sách?"
       />
     </div>
   );

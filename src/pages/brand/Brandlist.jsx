@@ -12,21 +12,21 @@ import { AiFillDelete } from "react-icons/ai";
 import CustomModal from "../../components/CustomModal";
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên thương hiệu",
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: "Images",
+    title: "Hình ảnh",
     dataIndex: "images",
   },
 
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -91,7 +91,7 @@ const Brandlist = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">Brand List</h3>
+      <h3 className="mb-4 title">Danh sách thương hiệu</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -101,7 +101,7 @@ const Brandlist = () => {
         performAction={() => {
           deleteBrand(brandId);
         }}
-        title="Are you sure you want to delete this brand?"
+        title="Bạn muốn xoá thương hiệu này khỏi danh sách?"
       />
     </div>
   );

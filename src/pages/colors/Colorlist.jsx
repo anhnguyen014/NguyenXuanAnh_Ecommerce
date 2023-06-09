@@ -12,17 +12,17 @@ import { AiFillDelete } from "react-icons/ai";
 import CustomModal from "../../components/CustomModal";
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên màu",
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
 
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -48,7 +48,18 @@ const Colorlist = () => {
   for (let i = 0; i < colorState.length; i++) {
     data1.push({
       key: i + 1,
-      name: colorState[i].title,
+      name: (
+        <div className="d-flex align-items-center gap-3">
+          <p>{colorState[i].title}</p>
+          <ul className="colors ps-0">
+            <li
+              style={{
+                backgroundColor: colorState[i].title,
+              }}
+            ></li>
+          </ul>
+        </div>
+      ),
       action: (
         <>
           <Link
@@ -76,7 +87,7 @@ const Colorlist = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Colors</h3>
+      <h3 className="mb-4 title">Danh sách màu</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

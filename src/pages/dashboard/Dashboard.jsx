@@ -11,27 +11,27 @@ import {
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên",
     dataIndex: "name",
   },
   {
-    title: "Product Count",
+    title: "Số lượng sản phẩm",
     dataIndex: "product",
   },
   {
-    title: "Total Price",
+    title: "Tổng giá",
     dataIndex: "price",
   },
   {
-    title: "Total Price After Discount",
+    title: "Tổng giá sau khuyến mãi",
     dataIndex: "dprice",
   },
   {
-    title: "Status",
+    title: "Trạng thái",
     dataIndex: "status",
   },
 ];
@@ -55,18 +55,18 @@ const Dashboard = () => {
   useEffect(() => {
     let data = [];
     let monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "Tháng 1",
+      "Tháng 2",
+      "Tháng 3",
+      "Tháng 4",
+      "Tháng 5",
+      "Tháng 6",
+      "Tháng 7",
+      "Tháng 8",
+      "Tháng 9",
+      "Tháng 10",
+      "Tháng 11",
+      "Tháng 12",
     ];
     let monthlyOrderCount = [];
     for (let index = 0; index < monthlyDataState?.length; index++) {

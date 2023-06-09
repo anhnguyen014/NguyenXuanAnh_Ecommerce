@@ -75,13 +75,13 @@ const AddBlogCat = () => {
   return (
     <div>
       <h3 className="mb-4 title">
-        {getBlogCateId !== undefined ? "Edit" : "Add"} Blog Category
+        {getBlogCateId !== undefined ? "Cập nhật" : "Thêm"} danh mục Blogs
       </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
           <CustomInput
             type="text"
-            placeholder="Enter Blog Category"
+            placeholder="Nhập danh mục Blogs"
             name="title"
             onCh={formik.handleChange("title")}
             onBlr={formik.handleBlur("title")}
@@ -95,7 +95,7 @@ const AddBlogCat = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {getBlogCateId !== undefined ? "Edit" : "Add"} Blog Cate
+            {getBlogCateId !== undefined ? "Cập nhật" : "Thêm"} danh mục Blogs
           </button>
         </form>
       </div>

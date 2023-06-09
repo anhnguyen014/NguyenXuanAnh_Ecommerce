@@ -12,21 +12,21 @@ import { AiFillDelete } from "react-icons/ai";
 import CustomModal from "../../components/CustomModal";
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên danh mục",
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: "Images",
+    title: "Hình ảnh",
     dataIndex: "images",
   },
 
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -87,7 +87,7 @@ const Categorylist = () => {
   };
   return (
     <div>
-      <h3 className="mb-4 title">Categories</h3>
+      <h3 className="mb-4 title">Danh sách danh mục</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -97,7 +97,7 @@ const Categorylist = () => {
         performAction={() => {
           deletePCategory(pCategoryId);
         }}
-        title="Are you sure you want to delete this category?"
+        title="Bạn muốn xoá danh mục này ra khỏi danh sách?"
       />
     </div>
   );

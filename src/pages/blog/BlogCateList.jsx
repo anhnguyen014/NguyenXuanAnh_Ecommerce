@@ -14,17 +14,17 @@ import { Link } from "react-router-dom";
 
 const columns = [
   {
-    title: "SNo",
+    title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Name",
+    title: "Tên danh mục",
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
 
   {
-    title: "Action",
+    title: "Hành động",
     dataIndex: "action",
   },
 ];
@@ -79,7 +79,7 @@ const BlogCateList = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">Blog Categories</h3>
+      <h3 className="mb-4 title">Danh sách các danh mục Blogs</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -89,7 +89,7 @@ const BlogCateList = () => {
         performAction={() => {
           deleteBlogCategory(blogCateId);
         }}
-        title="Are you sure you want to delete this brand?"
+        title="Bạn có muốn xoá danh mục này ra khỏi danh sách?"
       />
     </div>
   );

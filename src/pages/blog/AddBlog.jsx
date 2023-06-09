@@ -116,7 +116,7 @@ const AddBlog = () => {
   return (
     <div>
       <h3 className="mb-4 title">
-        {getBlogId !== undefined ? "Edit" : "Add"} Blog
+        {getBlogId !== undefined ? "Cập nhật" : "Thêm"} Blog
       </h3>
 
       <div className="">
@@ -124,7 +124,7 @@ const AddBlog = () => {
           <div className="mt-4">
             <CustomInput
               type="text"
-              placeholder="Enter Blog Title"
+              placeholder="Nhập tên Blogs"
               name="title"
               onCh={formik.handleChange("title")}
               onBlr={formik.handleBlur("title")}
@@ -142,7 +142,7 @@ const AddBlog = () => {
             className="form-control py-3 mt-4 "
             id=""
           >
-            <option value="">Select Blog Category</option>
+            <option value="">Chọn danh mục blogs</option>
             {bCateState.map((i, j) => {
               return (
                 <option key={j} value={i.title}>
@@ -172,9 +172,7 @@ const AddBlog = () => {
                 <section>
                   <div {...getRootProps()}>
                     <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
+                    <p>Kéo 'và' thả một số tệp vào đây hoặc nhấp để chọn tệp</p>
                   </div>
                 </section>
               )}
@@ -199,7 +197,7 @@ const AddBlog = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {getBlogId !== undefined ? "Edit" : "Add"} Blog
+            {getBlogId !== undefined ? "Cập nhật" : "Thêm"} Blog
           </button>
         </form>
       </div>
