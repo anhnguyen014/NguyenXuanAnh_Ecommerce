@@ -71,15 +71,15 @@ const Cart = () => {
   return (
     <>
       <Meta title={"Cart"} />
-      <BreadCrumb title="Cart" />
+      <BreadCrumb title="Giỏ hàng" />
       <Container class1="cart-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
             <div className="cart-header py-3 d-flex justify-content-between align-items-center">
-              <h4 className="cart-col-1">Product</h4>
-              <h4 className="cart-col-2">Price</h4>
-              <h4 className="cart-col-3">Quantity</h4>
-              <h4 className="cart-col-4">Total</h4>
+              <h4 className="cart-col-1">Sản phẩm</h4>
+              <h4 className="cart-col-2">Giá</h4>
+              <h4 className="cart-col-3">Số lượng</h4>
+              <h4 className="cart-col-4">Tổng tiền</h4>
             </div>
             {userCartState && userCartState?.length === 0 && (
               <div>
@@ -153,6 +153,7 @@ const Cart = () => {
                         />
                       </div>
                     </div>
+
                     <div className="cart-col-4">
                       <h5 className="price text-danger">
                         {(item?.price * item?.quantity).toLocaleString(
@@ -168,20 +169,22 @@ const Cart = () => {
           <div className="col-12 py-2 mt-4">
             <div className="d-flex justify-content-between align-items-baseline">
               <Link to="/product" className="button">
-                Continue To Shopping
+                Tiếp tục mua sắm
               </Link>
               {(totalAmount !== null || totalAmount !== 0) && (
                 <div className="d-flex flex-column align-items-end">
                   <h4>
-                    SubTotal:
-                    {totalAmount?.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                    Tổng phụ thu:
+                    <span className="text-danger">
+                      {totalAmount?.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span>
                   </h4>
-                  <p>Taxes and shipping calculated at checkout</p>
+                  <p>Phí và vận chuyển khi thanh toán</p>
                   <Link to="/checkout" className="button">
-                    Checkout
+                    Thanh toán
                   </Link>
                 </div>
               )}

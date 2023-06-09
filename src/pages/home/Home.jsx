@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from "../../components/BlogCard";
@@ -57,6 +57,15 @@ const Home = () => {
   const blogState = useSelector((state) => state?.blog?.blogs);
   const brandState = useSelector((state) => state?.brand?.brands);
   const categoryState = useSelector((state) => state?.category?.categories);
+
+  const [noOfElements, setNoOfElements] = useState(6);
+  const [noOfElements1, setNoOfElements1] = useState(8);
+  const loadMore = () => {
+    setNoOfElements(noOfElements + noOfElements);
+  };
+  const loadMore1 = () => {
+    setNoOfElements1(noOfElements1 + noOfElements1);
+  };
 
   return (
     <>
@@ -271,11 +280,11 @@ const Home = () => {
           <div className="col-12">
             <h3 className="section-heading text-uppercase">Sản Phẩm Nổi Bật</h3>
           </div>
-          {productState &&
-            productState?.map((item, index) => {
+          {productState?.slice(0, noOfElements) &&
+            productState?.slice(0, noOfElements)?.map((item, index) => {
               if (item?.tags === "featured") {
                 return (
-                  <div key={index} className="col-3">
+                  <div key={index} className="col-3 mb-3">
                     <div className="product-card position-relative">
                       <div className="wishlist-icon position-absolute">
                         <button
@@ -336,9 +345,12 @@ const Home = () => {
                 );
               }
             })}
+          <button className="btn button w-100 mt-4" onClick={() => loadMore()}>
+            Xem thêm
+          </button>
         </div>
       </Container>
-      <Container class1="famous-wrapper py-5 home-wrapper-2">
+      {/* <Container class1="famous-wrapper py-5 home-wrapper-2">
         <div className="row gap-10">
           <div className="col-3">
             <div className="famous-card position-relative">
@@ -397,11 +409,13 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </Container> */}
       <Container class1="special-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
-            <h3 className="section-heading">Sản Phẩm Đặc Biệt</h3>
+            <h3 className="section-heading text-uppercase">
+              Sản Phẩm Đặc Biệt
+            </h3>
           </div>
         </div>
         <div className="row">
@@ -418,6 +432,7 @@ const Home = () => {
                       style: "currency",
                       currency: "VND",
                     })}
+                    images={item?.images[0]?.url}
                     totalRating={item?.totalRating}
                     sold={item?.sold}
                     quantity={item?.quantity}
@@ -434,11 +449,11 @@ const Home = () => {
               Sản Phẩm Phổ Biến
             </h3>
           </div>
-          {productState &&
-            productState?.map((item, index) => {
+          {productState?.slice(0, noOfElements1) &&
+            productState?.slice(0, noOfElements1)?.map((item, index) => {
               if (item?.tags === "popular") {
                 return (
-                  <div key={index} className={"col-3"}>
+                  <div key={index} className={"col-3 mb-3"}>
                     <div className="product-card position-relative">
                       <div className="wishlist-icon position-absolute">
                         <button
@@ -499,6 +514,9 @@ const Home = () => {
                 );
               }
             })}
+          <button className="btn button w-100 mt-4" onClick={() => loadMore1()}>
+            Xem thêm
+          </button>
         </div>
       </Container>
       <Container class1="marque-wrapper home-wrapper-2 py-5">

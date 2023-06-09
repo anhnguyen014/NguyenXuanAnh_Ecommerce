@@ -199,7 +199,7 @@ const Checkout = () => {
   return (
     <>
       <Meta title={"Checkout"} />
-      <BreadCrumb title="Checkout" />
+      <BreadCrumb title="Thanh toán" />
       <Container class1="checkout-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-7">
@@ -212,7 +212,7 @@ const Checkout = () => {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item ">
                     <Link className="text-dark total-price" to="/cart">
-                      Cart
+                      Giỏ hàng
                     </Link>
                   </li>
 
@@ -220,23 +220,23 @@ const Checkout = () => {
                     className="breadcrumb-item  total-price active"
                     aria-current="page"
                   >
-                    Information
+                    Thông tin
                   </li>
                   <li className="breadcrumb-item  total-price active">
-                    Shipping
+                    Vận chuyển
                   </li>
 
                   <li
                     className="breadcrumb-item  total-price active"
                     aria-current="page"
                   >
-                    Payment
+                    Thanh toán
                   </li>
                 </ol>
               </nav>
-              <h4 className="title total">Thong tin lien he</h4>
+              <h4 className="title total">Thông tin liên hệ</h4>
               <p className="user-details">Anh (anhnguyen.100499@gmail.com)</p>
-              <h4 className="mb-3">Shipping Address</h4>
+              <h4 className="mb-3">Địa chỉ vận chuyển</h4>
               <form
                 onSubmit={handleSubmit}
                 action=""
@@ -252,9 +252,9 @@ const Checkout = () => {
                     className="form-control form-select"
                   >
                     <option value="" selected disabled>
-                      Select Country
+                      Chọn Quốc gia
                     </option>
-                    <option value="Viet Nam">Viet Nam</option>
+                    <option value="Viet Nam">Việt Nam</option>
                   </select>
                   <div className="error ms-2 my-1">
                     {formik.touched.country && formik.errors.country}
@@ -265,7 +265,7 @@ const Checkout = () => {
                     id="firstName"
                     type="text"
                     className="form-control"
-                    placeholder="First name"
+                    placeholder="Họ"
                     name="firstName"
                     value={formik.values.firstName}
                     onChange={formik.handleChange("firstName")}
@@ -281,7 +281,7 @@ const Checkout = () => {
                     id="lastName"
                     type="text"
                     className="form-control"
-                    placeholder="Last name"
+                    placeholder="Tên"
                     name="lastName"
                     value={formik.values.lastName}
                     onChange={formik.handleChange("lastName")}
@@ -297,7 +297,7 @@ const Checkout = () => {
                     id="address"
                     type="text"
                     className="form-control"
-                    placeholder="Address"
+                    placeholder="Địa chỉ"
                     name="address"
                     value={formik.values.address}
                     onChange={formik.handleChange("address")}
@@ -312,7 +312,7 @@ const Checkout = () => {
                     id="other"
                     type="text"
                     className="form-control"
-                    placeholder="Apartment, Suite, etc"
+                    placeholder="Địa chỉ cụ thể"
                     name="other"
                     value={formik.values.other}
                     onChange={formik.handleChange("other")}
@@ -327,7 +327,7 @@ const Checkout = () => {
                     id="city"
                     type="text"
                     className="form-control"
-                    placeholder="City"
+                    placeholder="Thành phố"
                     name="city"
                     value={formik.values.city}
                     onChange={formik.handleChange("city")}
@@ -348,7 +348,7 @@ const Checkout = () => {
                     className="form-control form-select"
                   >
                     <option value="" selected disabled>
-                      Select State
+                      Tình trạng
                     </option>
                     <option value="hanoi">Ha Noi</option>
                   </select>
@@ -361,7 +361,7 @@ const Checkout = () => {
                     id="pincode"
                     type="text"
                     className="form-control"
-                    placeholder="ZipCode"
+                    placeholder="Mã code"
                     name="pincode"
                     value={formik.values.pincode}
                     onChange={formik.handleChange("pincode")}
@@ -375,13 +375,13 @@ const Checkout = () => {
                   <div className="d-flex justify-content-between align-items-center">
                     <Link to="/cart" className="text-dark">
                       <MdOutlineArrowBackIosNew className="me-2" />
-                      Return to Cart
+                      Quay lại giỏ hàng
                     </Link>
                     <Link to="/cart" className="button">
-                      Continue to Shipping
+                      Tiếp tục thanh toán
                     </Link>
                     <button className="button border-0" type="submit">
-                      Place Order
+                      Thanh toán hoá đơn
                     </button>
                   </div>
                 </div>
@@ -440,7 +440,7 @@ const Checkout = () => {
             </div>
             <div className="border-bottom py-4">
               <div className="d-flex justify-content-between align-items-center">
-                <p className="total">Subtotal</p>
+                <p className="total">Tổng hoá đơn</p>
                 <p className="total-price">
                   {totalAmount?.toLocaleString("vi-VN", {
                     style: "currency",
@@ -454,9 +454,8 @@ const Checkout = () => {
                 </p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
-                <p className="mb-0 total">Shipping</p>
+                <p className="mb-0 total">Phí vận chuyển</p>
                 <p className="mb-0 total-price">
-                  {" "}
                   {priceShipping?.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
@@ -465,7 +464,7 @@ const Checkout = () => {
               </div>
             </div>
             <div className="d-flex justify-content-between align-items-center border-bottom py-4">
-              <h4 className="total">Total</h4>
+              <h4 className="total">Tổng thanh toán</h4>
               <h5 className="total-price">
                 {totalAmount?.toLocaleString("vi-VN", {
                   style: "currency",

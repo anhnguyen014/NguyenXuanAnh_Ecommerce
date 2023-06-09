@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
 :root{
   --color-131921:#131921;
@@ -75,6 +74,7 @@ a{
   background-color: var(--color-febd68);
   color: var(--color-131921);
 }
+
 
 .mouse{
   cursor: pointer;
@@ -364,9 +364,10 @@ color: var(--color-1c1c1b);
   border-radius: 10px;
   overflow: hidden;
 }
+
+
 .product-image img{
   width: 202px;
- 
 }
 .product-card .product-image {
   height: 320px;

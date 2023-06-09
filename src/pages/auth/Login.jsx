@@ -40,12 +40,12 @@ const Login = () => {
   return (
     <>
       <Meta title={"Login"} />
-      <BreadCrumb title="Login" />
+      <BreadCrumb title="Đăng nhập" />
       <Container class1="login-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12 ">
             <div className="auth-card">
-              <h3 className="text-center mb-3">Login</h3>
+              <h3 className="text-center mb-3">Đăng Nhập</h3>
               <form
                 action=""
                 onSubmit={formik.handleSubmit}
@@ -54,7 +54,7 @@ const Login = () => {
                 <CustomInput
                   type="text"
                   name="username"
-                  placeholder="Username"
+                  placeholder="Tên tài khoản"
                   value={formik.values.username}
                   onChange={formik.handleChange("username")}
                   onBlur={formik.handleBlur("username")}
@@ -65,7 +65,7 @@ const Login = () => {
                 <CustomInput
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                   value={formik.values.password}
                   onChange={formik.handleChange("password")}
                   onBlur={formik.handleBlur("password")}
@@ -74,11 +74,11 @@ const Login = () => {
                   {formik.touched.password && formik.errors.password}
                 </div>
                 <div>
-                  <Link to="/forgot-password">Forgot Password?</Link>
+                  <Link to="/forgot-password">Quên mật khẩu?</Link>
                   <div className="mt-3 d-flex justify-content-center align-items-center gap-15">
-                    <button className="button">Login</button>
+                    <button className="button">Đăng nhập</button>
                     <Link to="/register" className="button signup">
-                      SignUp
+                      Đăng ký
                     </Link>
                   </div>
                 </div>

@@ -6,7 +6,7 @@ import newsletter from "../images/newsletter.png";
 const Footer = () => {
   return (
     <>
-      <footer className="py-4">
+      {/* <footer className="py-4">
         <div className="container-xxl">
           <div className="row align-items-center">
             <div className="col-5">
@@ -28,22 +28,22 @@ const Footer = () => {
                   className="input-group-text p-2 text-white "
                   id="basic-addon2"
                 >
-                  Subscribe
+                  Đăng ký
                 </span>
               </div>
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
       <footer className="py-4">
         <div className="container-xxl">
           <div className="row">
             <div className="col-4">
-              <h4 className="text-white mb-4">Contact Us</h4>
+              <h4 className="text-white mb-4">Liên hệ với chúng tôi</h4>
               <div>
                 <address className="text-white fs-6">
-                  Hno : 22 Streets, Phuoc Long B Ward,
-                  <br /> Thu Duc City, Ho Chi Minh City. <br />
+                  Địa chỉ :Đường 22, Phường Phước Long B
+                  <br /> Thành phố Thủ Đức, Thành phố Hồ Chí Minh <br />
                   PinCode: 123258
                 </address>
                 <a
@@ -75,19 +75,19 @@ const Footer = () => {
               </div>
             </div>
             <div className="col-3">
-              <h4 className="text-white mb-4">Information</h4>
+              <h4 className="text-white mb-4">Thông tin</h4>
               <div className=" d-flex flex-column">
                 <Link className="text-white py-2 mb-1" to="/privacy-policy">
-                  Privacy Policy
+                  Chính sách bảo mật
                 </Link>
                 <Link className="text-white py-2 mb-1" to="/refund-policy">
-                  Refund Policy
+                  Chính sách hoàn tiền
                 </Link>
                 <Link className="text-white py-2 mb-1" to="/shipping-policy">
-                  Shipping Policy
+                  Chính sách vận chuyển
                 </Link>
                 <Link className="text-white py-2 mb-1" to="tern-condition">
-                  Terms & Conditions
+                  Điều khoản và điều kiện
                 </Link>
                 <Link className="text-white py-2 mb-1" to="/blog">
                   Blogs

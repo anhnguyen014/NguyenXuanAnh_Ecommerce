@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link, useLocation } from "react-router-dom";
 import wish from "../images/wish.svg";
@@ -42,7 +42,7 @@ const ProductCard = (props) => {
                   <img src={wish} alt="wishlist" />
                 </button>
               </div>
-              <div className="product-image">
+              <div className="product-image" style={{ width: "202px" }}>
                 <img
                   src={item?.images[0]?.url ? item?.images[0]?.url : watch}
                   className="image-product"

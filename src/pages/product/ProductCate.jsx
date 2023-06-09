@@ -27,6 +27,7 @@ const ProductCate = () => {
   const addToWhish = (id) => {
     // alert(id);
     dispatch(addToWishList(id));
+    // console.log(id);
   };
   const productState = useSelector(
     (state) => state?.product?.productByCategory
@@ -47,6 +48,7 @@ const ProductCate = () => {
           <hr />
           {productState &&
             productState?.map((item, index) => {
+              console.log(item._id);
               return (
                 <div key={index} className="col-3 mt-4">
                   <div className="product-card position-relative">

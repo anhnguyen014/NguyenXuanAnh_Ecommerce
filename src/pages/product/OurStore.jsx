@@ -49,11 +49,15 @@ const OurStore = () => {
   const getProducts = () => {
     dispatch(getAllProduct({ sort, tag, brand, category, minPrice, maxPrice }));
   };
+  const [noOfElements, setNoOfElements] = useState(6);
+  const loadMore = () => {
+    setNoOfElements(noOfElements + noOfElements);
+  };
 
   return (
     <>
       <Meta title={"Our Store"} />
-      <BreadCrumb title="Our Store" />
+      <BreadCrumb title="Sản phẩm" />
       <Container class1="store-wrapper home-wrapper-2 py-5 ">
         <div className="row">
           <div className="col-3">
@@ -82,20 +86,20 @@ const OurStore = () => {
                       type="number"
                       className="form-control"
                       id="floatingInput"
-                      placeholder="From"
+                      placeholder="Từ"
                       onChange={(e) => setMinPrice(e.target.value)}
                     />
-                    <label htmlFor="floatingInput">From</label>
+                    <label htmlFor="floatingInput">Từ</label>
                   </div>
                   <div className="form-floating">
                     <input
                       type="number"
                       className="form-control"
                       id="floatingInput1"
-                      placeholder="To"
+                      placeholder="Đến"
                       onChange={(e) => setMaxPrice(e.target.value)}
                     />
-                    <label htmlFor="floatingInput1">To</label>
+                    <label htmlFor="floatingInput1">Đến</label>
                   </div>
                 </div>
               </div>
@@ -203,9 +207,19 @@ const OurStore = () => {
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
                 <ProductCard
-                  data={productState ? productState : []}
+                  data={
+                    productState?.slice(0, noOfElements)
+                      ? productState?.slice(0, noOfElements)
+                      : []
+                  }
                   grid={grid}
                 />
+                <button
+                  className="btn btn-primary w-100 mt-4"
+                  onClick={() => loadMore()}
+                >
+                  Xem thêm
+                </button>
               </div>
             </div>
           </div>

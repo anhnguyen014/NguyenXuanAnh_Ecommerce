@@ -34,26 +34,26 @@ const Register = () => {
     validationSchema: registerSchema,
     onSubmit: (values) => {
       dispatch(registerUser(values));
-      formik.resetForm();
+      // formik.resetForm();
       // alert(JSON.stringify(values, null, 2));
     },
   });
 
-  useEffect(() => {
-    if (authState.createdUser !== null && authState.isError === false) {
-      navigate("/login");
-    }
-  }, [authState]);
+  // useEffect(() => {
+  //   if (authState.isError === false && authState.createdUser !== null) {
+  //     navigate("/login");
+  //   }
+  // }, [authState]);
 
   return (
     <>
       <Meta title={"Sign Up"} />
-      <BreadCrumb title="Sign Up" />
+      <BreadCrumb title="Đăng ký" />
       <Container class1="login-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12 ">
             <div className="auth-card">
-              <h3 className="text-center mb-3">Sign Up</h3>
+              <h3 className="text-center mb-3">Đăng Ký</h3>
               <form
                 action=""
                 onSubmit={formik.handleSubmit}
@@ -62,7 +62,7 @@ const Register = () => {
                 <CustomInput
                   type="text"
                   name="firstname"
-                  placeholder="First name"
+                  placeholder="Nhập họ"
                   value={formik.values.firstname}
                   onChange={formik.handleChange("firstname")}
                   onBlur={formik.handleBlur("firstname")}
@@ -73,7 +73,7 @@ const Register = () => {
                 <CustomInput
                   type="text"
                   name="lastname"
-                  placeholder="Last name"
+                  placeholder="Nhập tên"
                   value={formik.values.lastname}
                   onChange={formik.handleChange("lastname")}
                   onBlur={formik.handleBlur("lastname")}
@@ -84,7 +84,7 @@ const Register = () => {
                 <CustomInput
                   type="text"
                   name="userName"
-                  placeholder="Username"
+                  placeholder="Tên tài khoản"
                   value={formik.values.username}
                   onChange={formik.handleChange("username")}
                   onBlur={formik.handleBlur("username")}
@@ -106,7 +106,7 @@ const Register = () => {
                 <CustomInput
                   type="tel"
                   name="mobile"
-                  placeholder="Mobile Number"
+                  placeholder="Số điện thoại"
                   value={formik.values.mobile}
                   onChange={formik.handleChange("mobile")}
                   onBlur={formik.handleBlur("mobile")}
@@ -117,7 +117,7 @@ const Register = () => {
                 <CustomInput
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                   value={formik.values.password}
                   onChange={formik.handleChange("password")}
                   onBlur={formik.handleBlur("password")}
@@ -128,7 +128,7 @@ const Register = () => {
 
                 <div>
                   <div className="mt-3 d-flex justify-content-center align-items-center gap-15">
-                    <button className="button">Create</button>
+                    <button className="button">Đăng ký</button>
                   </div>
                 </div>
               </form>
