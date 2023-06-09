@@ -13,6 +13,7 @@ const colorRoute = require("./routers/colorRoute");
 const contactRoute = require("./routers/contactRoute");
 const uploadRoute = require("./routers/uploadRoute");
 const couponRoute = require("./routers/couponRoute");
+const promotionRoute = require("./routers/promotionRoute");
 
 const cors = require("cors");
 
@@ -41,6 +42,7 @@ app.use("/api/color", colorRoute);
 app.use("/api/contact", contactRoute);
 app.use("/api/coupon", couponRoute);
 app.use("/api/upload", uploadRoute);
+app.use("/api/promotion", promotionRoute);
 
 app.use(notFound);
 app.use(errorHandle);

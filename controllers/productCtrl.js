@@ -174,11 +174,11 @@ const rating = asyncHandle(async (req, res) => {
   // console.log(star, prodId);
   try {
     const product = await Product.findById(prodId);
-    console.log(product);
+    // console.log(product);
     let alreadyRated = product.ratings.find(
       (userId) => userId.postedBy.toString() === _id.toString()
     );
-    console.log(alreadyRated);
+    // console.log(alreadyRated);
     if (alreadyRated) {
       const updateRating = await Product.updateOne(
         {
