@@ -119,6 +119,16 @@ const MainLayout = () => {
                   icon: <AiOutlineBgColors className="fs-4" />,
                   label: "Danh sách màu",
                 },
+                {
+                  key: "add-promotion",
+                  icon: <AiOutlineBgColors className="fs-4" />,
+                  label: "Thêm khuyến mãi",
+                },
+                {
+                  key: "promotion-list",
+                  icon: <AiOutlineBgColors className="fs-4" />,
+                  label: "Danh sách khuyến mãi",
+                },
               ],
             },
             {

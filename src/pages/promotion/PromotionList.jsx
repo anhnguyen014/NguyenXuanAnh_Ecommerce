@@ -1,44 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteABrand,
-  getBrands,
-  resetState,
-} from "../../features/brand/brandSlice";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
 import CustomModal from "../../components/CustomModal";
+import {
+  deleteOnePromotion,
+  getPromotions,
+  resetState,
+} from "../../features/promotion/promotionSlice";
 const columns = [
   {
     title: "STT",
     dataIndex: "key",
   },
   {
-    title: "Tên thương hiệu",
+    title: "Tên sản phẩm",
     dataIndex: "name",
-    sorter: (a, b) => a.name.length - b.name.length,
+    // sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: "Hình ảnh",
-    dataIndex: "images",
+    title: "Status",
+    dataIndex: "status",
+    // sorter: (a, b) => a.name.length - b.name.length,
+  },
+  {
+    title: "Ngày bắt đầu",
+    dataIndex: "startDate",
   },
 
+  {
+    title: "Ngày kết thúc",
+    dataIndex: "endDate",
+  },
+  {
+    title: "Giảm giá ",
+    dataIndex: "discount",
+  },
   {
     title: "Hành động",
     dataIndex: "action",
   },
 ];
 
-const Brandlist = () => {
+const PromotionList = () => {
   const [open, setOpen] = useState(false);
-  const [brandId, setBrandId] = useState("");
+  const [promotionId, setPromotionId] = useState("");
   const showModal = (e) => {
     setOpen(true);
-    setBrandId(e);
+    setPromotionId(e);
   };
-  // console.log(brandId);
+  console.log(promotionId);
   const hideModal = () => {
     setOpen(false);
   };
@@ -47,33 +61,39 @@ const Brandlist = () => {
 
   useEffect(() => {
     dispatch(resetState());
-    dispatch(getBrands());
+    dispatch(getPromotions());
   }, []);
-  const brandState = useSelector((state) => state.brand.brands);
+  const promotionState = useSelector((state) => state?.promotion.promotions);
   const data1 = [];
-  for (let i = 0; i < brandState.length; i++) {
+
+  for (let i = 0; i < promotionState?.length; i++) {
     data1.push({
       key: i + 1,
-      name: brandState[i].title,
-      images: (
-        <img
-          src={brandState[i]?.images[0]?.url}
-          alt=""
-          className="w-25 img-fluid"
-        />
-      ),
+      status: promotionState[i].status,
+      startDate: promotionState[i].startDate,
+      endDate: promotionState[i].endDate,
+      discount: promotionState[i].discount,
+      name: promotionState[i]?.productID[0]?.title,
+
+      //   images: (
+      //     <img
+      //       src={promotionState[i]?.images[0]?.url}
+      //       alt=""
+      //       className="w-25 img-fluid"
+      //     />
+      //   ),
 
       action: (
         <>
           <Link
-            to={`/admin/brand/${brandState[i]._id}`}
+            to={`/admin/promotion/${promotionState[i]._id}`}
             className=" fs-4 text-success"
           >
             <FiEdit />
           </Link>
           <button
             className="ms-3 fs-4 text-danger bg-transparent border-0"
-            onClick={() => showModal(brandState[i]._id)}
+            onClick={() => showModal(promotionState[i]._id)}
           >
             <AiFillDelete />
           </button>
@@ -81,10 +101,10 @@ const Brandlist = () => {
       ),
     });
   }
-  const deleteBrand = (e) => {
-    dispatch(deleteABrand(e));
+  const deletePromotion = (e) => {
+    dispatch(deleteOnePromotion(e));
     setTimeout(() => {
-      dispatch(getBrands());
+      dispatch(getPromotions());
     }, 50);
     setOpen(false);
   };
@@ -94,13 +114,13 @@ const Brandlist = () => {
     <div>
       <div className="row">
         <div className="col-6">
-          <h3 className="mb-4 title">Danh sách hãng</h3>
+          <h3 className="mb-4 title">Danh sách sản phẩm khuyến mãi</h3>
         </div>
         <div className="col-6">
           <input
             type="text"
             className="form-control w-100"
-            placeholder="Tìm thương hiệu"
+            placeholder="Tìm sản phẩm"
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
@@ -108,10 +128,10 @@ const Brandlist = () => {
       <div>
         <Table
           columns={columns}
-          dataSource={data1?.filter((brandState) => {
+          dataSource={data1?.filter((promotionState) => {
             return search.toLowerCase() === ""
-              ? brandState
-              : brandState.name.toLowerCase().includes(search);
+              ? promotionState
+              : promotionState.name.toLowerCase().includes(search);
           })}
         />
       </div>
@@ -119,12 +139,12 @@ const Brandlist = () => {
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteBrand(brandId);
+          deletePromotion(promotionId);
         }}
-        title="Bạn muốn xoá thương hiệu này khỏi danh sách?"
+        title="Bạn muốn xoá sản phẩm này khỏi danh sách?"
       />
     </div>
   );
 };
 
-export default Brandlist;
+export default PromotionList;

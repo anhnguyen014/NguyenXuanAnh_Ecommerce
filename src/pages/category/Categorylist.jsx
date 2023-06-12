@@ -85,11 +85,32 @@ const Categorylist = () => {
       dispatch(getPCategories());
     }, 100);
   };
+  const [search, setSearch] = useState("");
+
   return (
     <div>
-      <h3 className="mb-4 title">Danh sách danh mục</h3>
+      <div className="row">
+        <div className="col-6">
+          <h3 className="mb-4 title">Danh sách sản phẩm</h3>
+        </div>
+        <div className="col-6">
+          <input
+            type="text"
+            className="form-control w-100"
+            placeholder="Tìm danh mục"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+      </div>
       <div>
-        <Table columns={columns} dataSource={data1} />
+        <Table
+          columns={columns}
+          dataSource={data1?.filter((pcateState) => {
+            return search.toLowerCase() === ""
+              ? pcateState
+              : pcateState.name.toLowerCase().includes(search);
+          })}
+        />
       </div>
       <CustomModal
         hideModal={hideModal}

@@ -23,6 +23,8 @@ import AddProduct from "./pages/products/AddProduct";
 import AddCoupon from "./pages/coupon/AddCoupon";
 import CouponList from "./pages/coupon/CouponList";
 import ViewEnq from "./pages/enquiry/ViewEnq";
+import PromotionList from "./pages/promotion/PromotionList";
+import AddPromotion from "./pages/promotion/AddPromotion";
 import ViewOrder from "./pages/orders/ViewOrder";
 import { PrivateRouters } from "./routing/PrivateRouters";
 import { OpenRouters } from "./routing/OpenRouters";
@@ -63,6 +65,9 @@ function App() {
           <Route path="color-list" element={<Colorlist />} />
           <Route path="add-color" element={<AddColor />} />
           <Route path="color/:id" element={<AddColor />} />
+          <Route path="promotion-list" element={<PromotionList />} />
+          <Route path="add-promotion" element={<AddPromotion />} />
+          <Route path="promotion/:id" element={<AddPromotion />} />
           <Route path="category-list" element={<Categorylist />} />
           <Route path="add-category" element={<AddCategory />} />
           <Route path="category/:id" element={<AddCategory />} />
