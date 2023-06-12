@@ -360,7 +360,7 @@ const forgotPasswordToken = asyncHandle(async (req, res) => {
       text: "Hey User",
       html: resetURL,
     };
-    console.log(data);
+    console.log("hey", data);
     sendEmail(data);
     // console.log(data);
     res.json(token);

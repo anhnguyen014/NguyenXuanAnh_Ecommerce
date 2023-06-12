@@ -45,6 +45,12 @@ var productSchema = new mongoose.Schema(
         ref: "Color",
       },
     ],
+    sale: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Promotion",
+      },
+    ],
     tags: String,
     ratings: [
       {
