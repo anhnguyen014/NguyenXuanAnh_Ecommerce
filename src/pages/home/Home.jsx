@@ -58,8 +58,10 @@ const Home = () => {
   const brandState = useSelector((state) => state?.brand?.brands);
   const categoryState = useSelector((state) => state?.category?.categories);
 
-  const [noOfElements, setNoOfElements] = useState(6);
-  const [noOfElements1, setNoOfElements1] = useState(8);
+  const [noOfElements, setNoOfElements] = useState(9);
+  const [noOfElements1, setNoOfElements1] = useState(7);
+  const [noOfElements2, setNoOfElements2] = useState(4);
+
   const loadMore = () => {
     setNoOfElements(noOfElements + noOfElements);
   };
@@ -91,76 +93,36 @@ const Home = () => {
           </div>
           <div className="col-6 ">
             <div className="d-flex flex-wrap justify-content-between align-items-center">
-              <div className="col-6 position-relative">
-                <div className="small-banner p-3 ">
-                  <img
-                    src="images/catbanner-01.jpg"
-                    className="img-fluid rounded-3"
-                    alt="main banner 1"
-                  />
-                </div>
-                <div className="small-banner-content position-absolute">
-                  <h4>SUPERCHARGED FOR PROS.</h4>
-                  <h5>Laptop Max.</h5>
-                  <p>
-                    From $1500.00 or <br /> $41.62/mo.
-                  </p>
-                </div>
-              </div>
-              <div className="col-6 position-relative ">
-                <div className="small-banner p-3">
-                  <img
-                    src="images/catbanner-03.jpg"
-                    className="img-fluid rounded-3"
-                    alt="main banner 1"
-                  />
-                </div>
-                <div className="small-banner-content position-absolute">
-                  <h4>NEW ARRIVAL.</h4>
-                  <h5>Buy iPad.</h5>
-                  <p>
-                    From $2000.00 or <br /> $42.62/mo.
-                  </p>
-                </div>
-              </div>
-              <div className="col-6 position-relative">
-                <div className="small-banner p-3">
-                  <img
-                    src="images/catbanner-02.jpg"
-                    className="img-fluid rounded-3"
-                    alt="main banner 1"
-                  />
-                </div>
-                <div className="small-banner-content position-absolute">
-                  <h4>15% OFF.</h4>
-                  <h5>SmartWatch 7.</h5>
-                  <p>
-                    Shop the latest band <br /> styles and colors.
-                  </p>
-                </div>
-              </div>
-              <div className="col-6 position-relative">
-                <div className="small-banner p-3">
-                  <img
-                    src="images/catbanner-04.jpg"
-                    className="img-fluid rounded-3"
-                    alt="main banner 1"
-                  />
-                </div>
-                <div className="small-banner-content position-absolute">
-                  <h4>FREE ENGRAVING.</h4>
-                  <h5>AirPods Max.</h5>
-                  <p>
-                    High-fidelity playback & <br />
-                    ultra-low distortion
-                  </p>
-                </div>
-              </div>
+              {categoryState &&
+                categoryState
+                  ?.slice(0, noOfElements2)
+                  ?.map((category, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="col-6 position-relative"
+                        onClick={() =>
+                          navigate(`product/category/${category?.title}`)
+                        }
+                      >
+                        <div className="small-banner p-3 ">
+                          <img
+                            src={category?.images[1]?.url}
+                            className="img-fluid rounded-3"
+                            alt="main banner 1"
+                          />
+                        </div>
+                        <div className="small-banner-content position-absolute">
+                          <h5>{category?.title}</h5>
+                        </div>
+                      </div>
+                    );
+                  })}
             </div>
           </div>
         </div>
       </Container>
-      <Container class1="home-wrapper-2 py-5">
+      {/* <Container class1="home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
             <div className="services d-flex align-items-center justify-content-between">
@@ -178,7 +140,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </Container> */}
       <Container class1="home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
@@ -574,7 +536,7 @@ const Home = () => {
                 <div className="col-3 d-flex gap-3 mb-4" key={index}>
                   <BlogCard
                     id={item?._id}
-                    title={item?.title}
+                    title={item?.title?.substr(0, 30) + "..."}
                     description={item?.description}
                     images={item?.images[0]?.url}
                     date={moment(item?.createdAt).format(

@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { config } from "../../utils/axiosConfig";
+
 import {
   createAOrder,
   deleteUserCart,
@@ -59,7 +60,6 @@ const Checkout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     formik.handleSubmit();
-    console.log(shippingInfo);
   };
 
   const cartState = useSelector((state) => state?.auth?.cartProducts);
@@ -93,7 +93,7 @@ const Checkout = () => {
       authState?.orderedProduct?.order !== null &&
       authState?.orderedProduct?.success === true
     ) {
-      navigate("/my-order");
+      navigate("/cart");
     }
   }, [authState]);
 

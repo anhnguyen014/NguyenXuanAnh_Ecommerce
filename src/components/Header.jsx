@@ -17,7 +17,7 @@ import {
 } from "../features/products/productSlice";
 import { getUserCart } from "../features/user/userSlice";
 import { getAllCategories } from "../features/categories/categorySlice";
-
+import { AiOutlineLogout } from "react-icons/ai";
 const Header = () => {
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state?.auth?.cartProducts);
@@ -95,13 +95,11 @@ const Header = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-6">
-              <p className="text-white mb-0">
-                Free Shipping Over $100 & Free Returns
-              </p>
+              <p className="text-white mb-0"></p>
             </div>
             <div className="col-6">
               <p className="text-end text-white mb-0">
-                Hotline:
+                Phone:
                 <a className="text-white" href="tel:+84 333853839">
                   +84 333853839
                 </a>
@@ -115,7 +113,9 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-2">
               <h1>
-                <Link className="text-white">DevAnh</Link>
+                <Link className="text-white" to="/">
+                  DevAnh
+                </Link>
               </h1>
             </div>
             <div className="col-5">
@@ -132,7 +132,7 @@ const Header = () => {
                   minLength={2}
                   labelKey={"name"}
                   paginate={paginate}
-                  placeholder="Search for products here..."
+                  placeholder="Tìm kiếm sản phẩm ...."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-6" />
@@ -165,6 +165,7 @@ const Header = () => {
                     </p>
                   </Link>
                 </div>
+
                 <div>
                   <Link
                     to={authState?.user === null ? "/login" : "/my-profile"}
@@ -185,6 +186,16 @@ const Header = () => {
                       </p>
                     )}
                   </Link>
+                </div>
+                <div>
+                  <AiOutlineLogout className="me-2 text-white fs-4" />
+                  <button
+                    onClick={handleLogout}
+                    className="border border-0 bg-transparent text-white text-uppercase"
+                    type="button"
+                  >
+                    Đăng xuất
+                  </button>
                 </div>
                 <div>
                   <Link
@@ -275,16 +286,8 @@ const Header = () => {
                   <div className="d-flex align-items-center gap-30">
                     <NavLink to="/">Trang chủ</NavLink>
                     <NavLink to="/product">Sản phẩm</NavLink>
-                    <NavLink to="/my-order">Đơn hàng</NavLink>
                     <NavLink to="/blog">Tin tức</NavLink>
                     <NavLink to="/contact">Liên hệ</NavLink>
-                    <button
-                      onClick={handleLogout}
-                      className="border border-0 bg-transparent text-white text-uppercase"
-                      type="button"
-                    >
-                      Đăng xuất
-                    </button>
                   </div>
                 </div>
               </div>

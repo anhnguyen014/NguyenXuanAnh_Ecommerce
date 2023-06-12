@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsLinkedin, BsGithub, BsYoutube, BsInstagram } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import newsletter from "../images/newsletter.png";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllProduct,
+  getProductByCate,
+} from "../features/products/productSlice";
 
 const Footer = () => {
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState(null);
+  const dispatch = useDispatch();
+
+  const productState = useSelector((state) => state?.product?.products);
+
+  useEffect(() => {
+    let newCategories = [];
+    for (let index = 0; index < productState?.length; index++) {
+      const element = productState[index];
+      newCategories.push(element?.category);
+    }
+    setCategories(newCategories);
+  }, [productState]);
+
+  useEffect(() => {
+    getProducts();
+  }, [category]);
+  const getProducts = () => {
+    dispatch(getAllProduct({ category }));
+  };
+
   return (
     <>
       {/* <footer className="py-4">
@@ -111,18 +138,19 @@ const Footer = () => {
             <div className="col-2">
               <h4 className="text-white mb-4">Quick Links</h4>
               <div className="footer-links d-flex flex-column">
-                <Link className="text-white py-2 mb-1" to="">
-                  Laptop
-                </Link>
-                <Link className="text-white py-2 mb-1" to="">
-                  Headphones
-                </Link>
-                <Link className="text-white py-2 mb-1" to="">
-                  Tablet
-                </Link>
-                <Link className="text-white py-2 mb-1" to="">
-                  Watch
-                </Link>
+                {categories &&
+                  [...new Set(categories)]?.map((item, index) => {
+                    return (
+                      <Link
+                        key={index}
+                        className="text-white py-2 mb-1"
+                        to={"/product/category/" + item}
+                        onClick={() => dispatch(getProductByCate(item))}
+                      >
+                        {item}
+                      </Link>
+                    );
+                  })}
               </div>
             </div>
           </div>
